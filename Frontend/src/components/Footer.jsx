@@ -11,8 +11,8 @@ const Footer = () => {
                     <p>Create. Inspire. Share.</p>
                 </div>
                 <div className="footer-links">
-                    <a href="#home">Home</a>
-                    <a href="#explore">Explore</a>
+                    <a href="/">Home</a>
+                    <a href="#">Explore</a>
                     <a href="#contact">Contact</a>
                     <a href="#about">About</a>
                 </div>

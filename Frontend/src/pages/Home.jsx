@@ -3,11 +3,12 @@ import PromptForm from '../components/Input';
 import ImageCard from '../components/ImageCard';
 import Slider from '../components/Silder';
 import Footer from '../components/Footer';
+import UserRating from '../components/UserRating';
 import image from '../images/image1.png';
 import aboutImage from '../images/image3.png';
 import { generateImage } from '../lib/imageService';
-import {useAuth} from '../context/AuthContext'
-import {toast} from 'react-hot-toast'
+import { useAuth } from '../context/AuthContext'
+import { toast } from 'react-hot-toast'
 import image1 from '../images/image4.png';
 import image2 from '../images/image5.png';
 import image3 from '../images/image6.png';
@@ -27,25 +28,25 @@ const Home = () => {
       createdBy: "manav"
     }
   ]);
-  const {user} = useAuth();
+  const { user } = useAuth();
   const [sliderImages, setSliderImages] = useState([...initialSliderImages]);
   const [loading, setLoading] = useState(false);
 
   const handleGenerateImage = async (prompt) => {
-    if(!prompt){
+    if (!prompt) {
       toast.error("enter a prompt");
     }
-    if(!user?._id){
-     toast.error("Please log in to generate images.");
-     return; 
+    if (!user?._id) {
+      toast.error("Please log in to generate images.");
+      return;
     }
     try {
       setLoading(true);
-      const res = await generateImage(prompt,user._id); 
+      const res = await generateImage(prompt, user._id);
       const newImage = {
         imageUrl: res.resultImage,
         prompt,
-        createdBy: user.username||"You"
+        createdBy: user.username || "You"
       };
       setGeneratedImages(prev => [newImage, ...prev]);
     } catch (error) {
@@ -64,7 +65,7 @@ const Home = () => {
 
   return (
     <div className="text-white">
-      <PromptForm onSubmit={handleGenerateImage}/>
+      <PromptForm onSubmit={handleGenerateImage} />
 
       <div className="mt-16 text-center">
         <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 text-transparent bg-clip-text">
@@ -88,6 +89,12 @@ const Home = () => {
       </div>
 
       {/* Slider */}
+      <div className="mt-20 text-center">
+        <h3 className="text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
+          Deep Dive Into Our AI Creations
+        </h3>
+        <div className="w-96 h-1 mx-auto bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 rounded-full shadow-md shadow-purple-500/30" />
+      </div>
       <div className="mt-20">
         <Slider images={sliderImages} />
       </div>
@@ -117,7 +124,9 @@ const Home = () => {
             />
           </div>
         </div>
+        <UserRating />
       </section>
+
 
       <Footer />
     </div>
