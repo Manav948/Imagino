@@ -1,7 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import { toast } from 'react-hot-toast'
 
 const ImageCard = ({ imageUrl, prompt, createdBy, onAddToSlider }) => {
+  const handleSubmit = () => {
+    toast.success("SuccessFully added in slider");
+  }
   return (
     <StyledWrapper>
       <div className="card-container">
@@ -13,7 +17,7 @@ const ImageCard = ({ imageUrl, prompt, createdBy, onAddToSlider }) => {
             {onAddToSlider && (
               <button
                 className="add-button"
-                onClick={() => onAddToSlider(imageUrl)}
+                onClick={() => {onAddToSlider(imageUrl),handleSubmit()}}
               >
                 ➕ Add to Slider
               </button>

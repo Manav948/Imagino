@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 import UserRating from '../components/UserRating';
 import image from '../images/image1.png';
 import aboutImage from '../images/image3.png';
-import { generateImage } from '../lib/imageService';
+import { generateImage,storeImageToHistory } from '../lib/imageService';
 import { useAuth } from '../context/AuthContext'
 import { toast } from 'react-hot-toast'
 import image1 from '../images/image4.png';
@@ -49,6 +49,7 @@ const Home = () => {
         createdBy: user.username || "You"
       };
       setGeneratedImages(prev => [newImage, ...prev]);
+      await storeImageToHistory(prompt , res.resultImage)
     } catch (error) {
       toast.error("Failed to generate image.");
       console.error(error);
@@ -104,18 +105,16 @@ const Home = () => {
         <div className="relative rounded-3xl bg-gradient-to-br from-[#ffffff0a] via-[#ffffff10] to-[#ffffff05] backdrop-blur-md shadow-lg border border-white/10 p-8 md:p-12 flex flex-col md:flex-row gap-10 items-center">
           <div className="absolute -top-8 -left-8 w-52 h-52 bg-gradient-to-tr from-purple-500 via-pink-500 to-indigo-500 rounded-full blur-3xl opacity-30 z-0" />
           <div className="absolute -bottom-8 -right-8 w-52 h-52 bg-gradient-to-tr from-pink-500 via-purple-500 to-indigo-500 rounded-full blur-3xl opacity-50 z-0" />
-
           <div className="relative z-10 w-full md:w-1/2 text-white">
             <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-500 text-transparent bg-clip-text mb-5">
-              We Help You Master the Art of Prompting
+              Unlock Creativity with Smarter Prompts
             </h2>
             <p className="text-base text-gray-300 leading-relaxed">
-              Welcome to <span className="text-white font-semibold">Promptify.AI</span> – your go-to tool for crafting powerful prompts.
+              Discover the power of <span className="text-white font-semibold">Promptify.AI</span> — your creative co-pilot for crafting detailed and inspiring prompts.
               <br /><br />
-              Mix <span className="text-white font-semibold">Subjects, Styles, Details, and Lighting</span> into the perfect prompt.
+              Effortlessly combine <span className="text-white font-semibold">concepts, styles, moods, and lighting</span> to bring your imagination to life.
             </p>
           </div>
-
           <div className="relative z-10 w-full md:w-1/2 flex justify-center">
             <img
               src={aboutImage}
@@ -126,8 +125,6 @@ const Home = () => {
         </div>
         <UserRating />
       </section>
-
-
       <Footer />
     </div>
   );
