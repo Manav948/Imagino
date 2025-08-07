@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PromptForm from '../components/Input';
 import ImageCard from '../components/ImageCard';
 import Slider from '../components/Silder';
 import Footer from '../components/Footer';
 import UserRating from '../components/UserRating';
-import image from '../images/image1.png';
+import Gallery from '../components/Gallery';
+import image from '../images/image11.jpg';
 import aboutImage from '../images/image3.png';
-import { generateImage,storeImageToHistory } from '../lib/imageService';
-import { useAuth } from '../context/AuthContext'
-import { toast } from 'react-hot-toast'
+import { generateImage, storeImageToHistory } from '../lib/imageService';
+import { useAuth } from '../context/AuthContext';
+import { toast } from 'react-hot-toast';
 import image1 from '../images/image4.png';
 import image2 from '../images/image5.png';
 import image3 from '../images/image6.png';
@@ -17,6 +18,7 @@ import image5 from '../images/image10.jpg';
 import image6 from '../images/image11.jpg';
 import image7 from '../images/image12.jpg';
 import image8 from '../images/image13.jpg';
+import axios from 'axios';
 
 const initialSliderImages = [image1, image2, image3, image4, image5, image6, image7, image8];
 
@@ -24,8 +26,8 @@ const Home = () => {
   const [generatedImages, setGeneratedImages] = useState([
     {
       imageUrl: image,
-      prompt: "Cyberpunk Samurai in Tokyo",
-      createdBy: "manav"
+      prompt: "Beautiful Nature Image",
+      createdBy: "Admin"
     }
   ]);
   const { user } = useAuth();
@@ -49,7 +51,7 @@ const Home = () => {
         createdBy: user.username || "You"
       };
       setGeneratedImages(prev => [newImage, ...prev]);
-      await storeImageToHistory(prompt , res.resultImage)
+      await storeImageToHistory(prompt, res.resultImage)
     } catch (error) {
       toast.error("Failed to generate image.");
       console.error(error);
@@ -63,6 +65,24 @@ const Home = () => {
       setSliderImages(prev => [...prev, imageUrl]);
     }
   };
+  useEffect(() => {
+    const fetchImage = async () => {
+      try {
+        const res = await axios.get('api/users/images', { withCredentials: true });
+        const storeImage = res?.data?.images || [];
+        setGeneratedImages(storeImage.map(img => ({
+          imageUrl: img.imageUrl,
+          prompt: img.prompt,
+          createdBy: user?.username || "You"
+        })))
+      } catch (error) {
+        console.log("Error in fetch image function : ", error);
+      }
+    }
+    if (user?._id) {
+      fetchImage();
+    }
+  }, [user])
 
   return (
     <div className="text-white">
@@ -123,6 +143,7 @@ const Home = () => {
             />
           </div>
         </div>
+        <Gallery />
         <UserRating />
       </section>
       <Footer />
