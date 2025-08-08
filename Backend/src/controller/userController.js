@@ -27,6 +27,10 @@ export const storeImage = async (req, res) => {
     const { prompt, imageUrl } = req.body
     try {
         const user = await User.findById(req.user.id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        
         user.generatedImages.push({ prompt, imageUrl });
         await user.save();
         res.status(200).json({ message: "save" })
@@ -39,6 +43,9 @@ export const storeImage = async (req, res) => {
 export const getImage = async (req, res) => {
     try {
         const user = await User.findById(req.user.id)
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
         res.status(200).json({ images: user.generatedImages })
     } catch (error) {
         console.log("Error in getImage Function : ", error);

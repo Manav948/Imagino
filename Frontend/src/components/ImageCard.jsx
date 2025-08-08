@@ -1,11 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
-import { toast } from 'react-hot-toast'
+import { toast } from 'react-hot-toast';
 
 const ImageCard = ({ imageUrl, prompt, createdBy, onAddToSlider }) => {
-  const handleSubmit = () => {
-    toast.success("SuccessFully added in slider");
-  }
+  const handleAddToSlider = () => {
+    onAddToSlider(imageUrl);
+    toast.success("Successfully added to slider");
+  };
+
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = imageUrl;
+    link.download = `${prompt.slice(0, 20).replace(/\s+/g, '_') || 'download'}.jpg`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toast.success("Image downloaded!");
+  };
+
   return (
     <StyledWrapper>
       <div className="card-container">
@@ -14,14 +26,16 @@ const ImageCard = ({ imageUrl, prompt, createdBy, onAddToSlider }) => {
           <div className="overlay">
             <h3 className="prompt">{prompt}</h3>
             <p className="creator">by {createdBy}</p>
-            {onAddToSlider && (
-              <button
-                className="add-button"
-                onClick={() => {onAddToSlider(imageUrl),handleSubmit()}}
-              >
-                ➕ Add to Slider
+            <div className="button-group">
+              {onAddToSlider && (
+                <button className="add-button" onClick={handleAddToSlider}>
+                  ➕ Add to Slider
+                </button>
+              )}
+              <button className="download-button" onClick={handleDownload}>
+                ⬇️ Download
               </button>
-            )}
+            </div>
           </div>
         </div>
       </div>
@@ -32,7 +46,7 @@ const ImageCard = ({ imageUrl, prompt, createdBy, onAddToSlider }) => {
 const StyledWrapper = styled.div`
   .card-container {
     width: 280px;
-    height: 340px;
+    height: 360px;
     border-radius: 20px;
     perspective: 1000px;
   }
@@ -83,7 +97,13 @@ const StyledWrapper = styled.div`
     margin-bottom: 8px;
   }
 
-  .add-button {
+  .button-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .add-button, .download-button {
     font-size: 12px;
     background: #6a0dad;
     border: none;
@@ -91,6 +111,11 @@ const StyledWrapper = styled.div`
     border-radius: 12px;
     color: white;
     cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .add-button:hover, .download-button:hover {
+    background: #8b3dd9;
   }
 `;
 

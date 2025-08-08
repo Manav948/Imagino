@@ -10,7 +10,7 @@ const Profile = () => {
       className="flex flex-col items-center justify-center min-h-screen text-center px-4"
     >
       <img
-        src="https://avatars.githubusercontent.com/u/583231?v=4" // You can replace this with user image in future
+        src="https://avatars.githubusercontent.com/u/583231?v=4"
         alt="Profile"
         className="w-32 h-32 rounded-full shadow-lg border-4 border-indigo-500 mb-4"
       />

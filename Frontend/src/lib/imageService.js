@@ -10,14 +10,11 @@ export const generateImage = async (prompt, userId) => {
 };
 
 export const storeImageToHistory = async (prompt, imageUrl,) => {
-  const token = localStorage.getItem("token");
   const res = await axios.post(
     `http://localhost:8001/api/user/store-image`,
     { prompt, imageUrl },
     {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      withCredentials: true
     }
   );
   return res.data;

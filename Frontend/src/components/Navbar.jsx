@@ -48,13 +48,6 @@ const Navbar = () => {
               >
                 Profile Pic
               </Link>
-
-              <Link
-                to="/history"
-                className="text-gray-300 hover:text-green-400 font-medium transition-colors duration-300"
-              >
-                History
-              </Link>
             </>
           )}
         </nav>

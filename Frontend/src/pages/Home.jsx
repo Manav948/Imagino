@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PromptForm from '../components/Input';
 import ImageCard from '../components/ImageCard';
 import Slider from '../components/Silder';
 import Footer from '../components/Footer';
 import UserRating from '../components/UserRating';
 import Gallery from '../components/Gallery';
-import image from '../images/image11.jpg';
+import image from '../images/image24.webp';
 import aboutImage from '../images/image3.png';
-import { generateImage, storeImageToHistory } from '../lib/imageService';
+import { generateImage } from '../lib/imageService';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-hot-toast';
 import image1 from '../images/image4.png';
@@ -18,7 +18,6 @@ import image5 from '../images/image10.jpg';
 import image6 from '../images/image11.jpg';
 import image7 from '../images/image12.jpg';
 import image8 from '../images/image13.jpg';
-import axios from 'axios';
 
 const initialSliderImages = [image1, image2, image3, image4, image5, image6, image7, image8];
 
@@ -26,17 +25,18 @@ const Home = () => {
   const [generatedImages, setGeneratedImages] = useState([
     {
       imageUrl: image,
-      prompt: "Beautiful Nature Image",
+      prompt: "",
       createdBy: "Admin"
     }
   ]);
-  const { user } = useAuth();
+  const { user,login } = useAuth();
   const [sliderImages, setSliderImages] = useState([...initialSliderImages]);
   const [loading, setLoading] = useState(false);
 
   const handleGenerateImage = async (prompt) => {
     if (!prompt) {
-      toast.error("enter a prompt");
+      toast.error("Please enter a prompt.");
+      return;
     }
     if (!user?._id) {
       toast.error("Please log in to generate images.");
@@ -47,14 +47,14 @@ const Home = () => {
       const res = await generateImage(prompt, user._id);
       const newImage = {
         imageUrl: res.resultImage,
-        prompt,
         createdBy: user.username || "You"
       };
       setGeneratedImages(prev => [newImage, ...prev]);
-      await storeImageToHistory(prompt, res.resultImage)
+      login({ ...user, imageCount: res.imageCount });
+      toast.success('image generated successfully')
     } catch (error) {
       toast.error("Failed to generate image.");
-      console.error(error);
+      console.error("Image generation error:", error);
     } finally {
       setLoading(false);
     }
@@ -65,25 +65,6 @@ const Home = () => {
       setSliderImages(prev => [...prev, imageUrl]);
     }
   };
-  useEffect(() => {
-    const fetchImage = async () => {
-      try {
-        const res = await axios.get('api/users/images', { withCredentials: true });
-        const storeImage = res?.data?.images || [];
-        setGeneratedImages(storeImage.map(img => ({
-          imageUrl: img.imageUrl,
-          prompt: img.prompt,
-          createdBy: user?.username || "You"
-        })))
-      } catch (error) {
-        console.log("Error in fetch image function : ", error);
-      }
-    }
-    if (user?._id) {
-      fetchImage();
-    }
-  }, [user])
-
   return (
     <div className="text-white">
       <PromptForm onSubmit={handleGenerateImage} />
@@ -109,7 +90,7 @@ const Home = () => {
         ))}
       </div>
 
-      {/* Slider */}
+      {/* Slider Section */}
       <div className="mt-20 text-center">
         <h3 className="text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
           Deep Dive Into Our AI Creations
@@ -143,9 +124,11 @@ const Home = () => {
             />
           </div>
         </div>
+
         <Gallery />
         <UserRating />
       </section>
+
       <Footer />
     </div>
   );
