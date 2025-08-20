@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion'
-const PromptForm = ({ onSubmit }) => {
-  const [prompt, setPrompt] = useState('');
+const PromptForm = ({ onSubmit , prompt , setPrompt }) => {
   const [loading, setLoading] = useState(false)
   const handleSubmit = async (e) => {
     e.preventDefault();
