@@ -13,35 +13,51 @@ const suggestions = [
 
 const Suggestion = ({ setPrompt }) => {
   const handleClick = (text) => {
-    setPrompt(text) // copy suggestion directly into input field
+    setPrompt(text)
   }
 
   return (
-    <div className="w-full max-w-5xl mx-auto mt-20 px-6">
+    <div className="relative w-full max-w-6xl mx-auto mt-20 px-6">
+      {/* Background Gradient */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-gray-950 via-black to-gray-950" />
+
       {/* Heading */}
-      <h2 className="text-2xl md:text-3xl font-bold mb-8 flex items-center justify-center gap-2 bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-        <Lightbulb className="w-7 h-7 text-yellow-400" />
+      <h2 className="text-3xl md:text-4xl font-bold mb-12 flex items-center justify-center gap-3 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+        <Lightbulb className="w-8 h-8 text-yellow-400" />
         Try These Suggestions
       </h2>
 
-      {/* Grid of suggestion cards */}
-      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+      {/* Card Grid */}
+      <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
         {suggestions.map((item, index) => (
           <motion.div
             key={index}
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: index * 0.15, duration: 0.6 }}
+            transition={{ delay: index * 0.15, duration: 0.7 }}
             onClick={() => handleClick(item)}
-            className="relative p-5 rounded-2xl cursor-pointer
-              backdrop-blur-lg border border-white/20 
-              bg-gradient-to-br from-white/10 via-white/5 to-white/0 
-              shadow-lg transition-all duration-300 
-              hover:scale-[1.03] hover:shadow-[0_0_25px_#a855f7]/50"
+            className="relative rounded-3xl bg-gradient-to-br from-[#ffffff0a] via-[#ffffff10] to-[#ffffff05]
+              backdrop-blur-md shadow-xl border border-white/10 
+              p-6 md:p-10 w-full max-w-md z-10 cursor-pointer
+              hover:scale-105 transition-transform duration-300 overflow-hidden"
           >
-            {/* Glass glow accents */}
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-purple-500/10 via-pink-500/5 to-transparent opacity-30 blur-xl pointer-events-none" />
+            {/* Floating glowing orbs (animated) */}
+            <motion.div
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -top-10 -left-10 w-32 h-32 bg-gradient-to-tr from-teal-400 via-purple-500 to-pink-500 rounded-full blur-3xl opacity-30"
+            />
+            <motion.div
+              animate={{ y: [0, 10, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -bottom-12 -right-12 w-36 h-36 bg-gradient-to-tr from-cyan-400 via-blue-500 to-purple-500 rounded-full blur-3xl opacity-30"
+            />
+            <motion.div
+              animate={{ x: [0, 15, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute top-1/2 -left-14 w-28 h-28 bg-gradient-to-tr from-pink-400 via-fuchsia-500 to-violet-600 rounded-full blur-3xl opacity-25"
+            />
 
             {/* Content */}
             <p className="relative z-10 text-white text-sm md:text-base font-medium leading-relaxed">
