@@ -4,7 +4,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import PromptForm from "../components/Input";
 import ImageCard from "../components/ImageCard";
-import Slider from "../components/Silder";
 import Footer from "../components/Footer";
 import UserRating from "../components/UserRating";
 import Gallery from "../components/Gallery";
@@ -13,6 +12,8 @@ import aboutImage from "../images/image3.png";
 import { generateImage } from "../lib/imageService";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-hot-toast";
+import HoverExpand from "../components/ui/hover-expand"
+import Suggestion from "../components/Suggestion";
 import image1 from "../images/image4.png";
 import image2 from "../images/image5.png";
 import image3 from "../images/image6.png";
@@ -21,11 +22,14 @@ import image5 from "../images/image10.jpg";
 import image6 from "../images/image11.jpg";
 import image7 from "../images/image12.jpg";
 import image8 from "../images/image13.jpg";
-import Suggestion from "../components/Suggestion";
+import image25 from "../images/image25.webp";
+import image26 from "../images/image26.webp";
+import image27 from "../images/image27.jpg";
+
 
 gsap.registerPlugin(ScrollTrigger);
 
-const initialSliderImages = [image1, image2, image3, image4, image5, image6, image7, image8];
+const initialSliderImages = [image1, image2, image3, image4, image5, image6, image7, image8,image25,image26,image27];
 
 const Home = () => {
   const [prompt, setPrompt] = useState("");
@@ -153,7 +157,13 @@ const Home = () => {
         <div className="w-96 h-1 mx-auto bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 rounded-full shadow-md shadow-purple-500/30" />
       </div>
       <div className="mt-20 fade-up">
-        <Slider images={sliderImages} />
+        <HoverExpand
+          images={sliderImages}
+          initialSelectedIndex={0}
+          thumbnailHeight={200}
+          modalImageSize={400}
+          maxThumbnails={11}
+        />
       </div>
 
       {/* About Section */}
