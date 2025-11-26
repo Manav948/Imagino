@@ -33,3 +33,9 @@ connectDb().then(() => {
 
 // Export the express app so Vercel's Node builder can use it as a handler.
 export default app
+
+// Fallback 404 response with path logged (helps diagnosing route mismatches on Vercel)
+app.use((req, res) => {
+    console.warn('Unhandled request path in backend:', req.originalUrl);
+    res.status(404).json({ message: 'Not Found', path: req.originalUrl });
+});

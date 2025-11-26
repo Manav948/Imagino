@@ -13,7 +13,8 @@ export const isAuth = (req, res, next) => {
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user =  {id: decoded.userID};
+        // Token payload contains `userId` (see `src/config/token.js`), use that consistently
+        req.user = { id: decoded.userId };
         
         next();
     } catch (error) {
