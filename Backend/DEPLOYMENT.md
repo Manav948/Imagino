@@ -98,7 +98,32 @@ curl https://your-backend.onrender.com/api/auth/
 
 ## Updating Your Frontend
 
-After deploying the backend, update your frontend's API URL to point to your Render backend URL.
+After deploying the backend, you need to configure your frontend to use the Render backend URL:
+
+### For Vercel Deployment:
+
+1. **Add Environment Variable in Vercel:**
+   - Go to your Vercel project settings
+   - Navigate to "Environment Variables"
+   - Add a new variable:
+     - **Key**: `VITE_API_URL`
+     - **Value**: `https://imagino-iba4.onrender.com` (your Render backend URL)
+   - Select all environments (Production, Preview, Development)
+   - Click "Save"
+
+2. **Redeploy your frontend:**
+   - The changes will be automatically picked up on next deployment
+   - Or trigger a manual redeploy from Vercel dashboard
+
+3. **Verify the connection:**
+   - Check browser console for any CORS errors
+   - Test authentication and API calls
+
+### Important Notes:
+
+- Make sure `FRONTEND_URL` in Render backend environment variables is set to: `https://imagino-dun.vercel.app`
+- Both backend (Render) and frontend (Vercel) must have correct URLs configured
+- After updating environment variables, you may need to restart/redeploy services
 
 ---
 
