@@ -19,23 +19,19 @@ app.use(express.json());
 app.use(cookieParser());
 app.use("/api/auth/", router);
 app.use("/api/user/", userRouter)
-// Connect DB. In Vercel serverless environment we export the app
-// as a handler. Only call `listen` when running locally.
-connectDb().then(() => {
-    if (!process.env.VERCEL) {
-        app.listen(PORT, () => {
-            console.log(`The Server running on port no : ${PORT}`);
-        })
-    } else {
-        console.log('Connected to DB (vercel). App exported as serverless handler.');
-    }
-})
 
-// Export the express app so Vercel's Node builder can use it as a handler.
-export default app
-
-// Fallback 404 response with path logged (helps diagnosing route mismatches on Vercel)
+// Fallback 404 response
 app.use((req, res) => {
-    console.warn('Unhandled request path in backend:', req.originalUrl);
+    console.warn('Unhandled request path:', req.originalUrl);
     res.status(404).json({ message: 'Not Found', path: req.originalUrl });
+});
+
+// Connect DB and start server
+connectDb().then(() => {
+    app.listen(PORT, '0.0.0.0', () => {
+        console.log(`Server running on port ${PORT}`);
+    });
+}).catch((error) => {
+    console.error('Failed to connect to database:', error);
+    process.exit(1);
 });
