@@ -22,7 +22,7 @@ const Footer = () => {
                     <a href="https://www.x.com/"><FaTwitter /></a>
                 </div>
             </div>
-            <p className="footer-copy">&copy; {new Date().getFullYear()} VisionCraft AI. All rights reserved.</p>
+            <p className="footer-copy">&copy; {new Date().getFullYear()} Made 💖 with Manav Valani.</p>
         </FooterWrapper>
     );
 };

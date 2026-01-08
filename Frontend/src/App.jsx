@@ -9,7 +9,7 @@ import Navbar from './components/Navbar'
 
 function App() {
   return (
-    <div className="bg-black">
+    <div className="bg-black overflow-hidden">
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />} />

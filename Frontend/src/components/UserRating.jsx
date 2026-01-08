@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import image1 from "../images/image14.png";
 import image2 from "../images/image15.png";
 import image3 from "../images/image16.webp";
@@ -33,35 +34,48 @@ const reviews = [
 
 const UserReviews = () => {
   return (
-    <div className="mt-32 px-6 md:px-20">
-      <h2 className="text-3xl md:text-4xl font-bold text-center mb-6 bg-gradient-to-r from-yellow-400 to-pink-500 text-transparent bg-clip-text">
+    <section className="mt-32 px-6 md:px-20">
+      {/* Heading */}
+      <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 bg-gradient-to-r from-yellow-400 to-pink-500 text-transparent bg-clip-text">
         What Our Users Say
       </h2>
-      <div className="flex space-x-6 overflow-x-auto pb-4 scrollbar-hide ">
+      <p className="text-center text-sm text-gray-400 mb-4 sm:hidden">
+        Swipe to see more →
+      </p>
+      {/* Review Cards */}
+      <div className="flex gap-6 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-hide">
         {reviews.map((review, index) => (
-          <div
+          <motion.div
             key={index}
-            className="relative min-w-[280px] max-w-xs bg-gradient-to-br from-[#ffffff0a] via-[#ffffff10] to-[#ffffff05] backdrop-blur-md shadow-lg border border-white/10 rounded-2xl p-6 text-white  hover:scale-95 transition-transform duration-300   "
+            whileHover={{ y: -8 }}
+            transition={{ type: "spring", stiffness: 200 }}
+            className="snap-start relative min-w-[280px] max-w-sm rounded-2xl 
+                       bg-white/5 backdrop-blur-xl border border-white/10 
+                       p-6 text-white shadow-xl hover:border-pink-500/30"
           >
-            <div className="absolute -top-8 -left-8 w-52 h-52 bg-gradient-to-tr from-purple-500 via-pink-500 to-indigo-500 rounded-full blur-3xl opacity-20 z-0"></div>
-            <div className="relative z-10  ">
-              <div className="flex items-center space-x-4 mb-2 ">
-                <img
-                  src={review.image}
-                  alt={review.name}
-                  className="w-12 h-12 rounded-full border border-white/20"
-                />
-                <div>
-                  <p className="font-semibold">{review.name}</p>
-                  <p className="text-sm text-gray-400">{review.location}</p>
-                </div>
+            {/* Glow */}
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-purple-500/10 via-pink-500/10 to-indigo-500/10 blur-2xl -z-10" />
+            {/* User */}
+            <div className="flex items-center gap-4 mb-4">
+              <img
+                src={review.image}
+                alt={review.name}
+                className="w-12 h-12 rounded-full border border-white/20 object-cover"
+              />
+              <div>
+                <p className="font-semibold">{review.name}</p>
+                <p className="text-sm text-gray-400">{review.location}</p>
               </div>
-              <p className="text-gray-300 mt-2 italic">"{review.message}"</p>
             </div>
-          </div>
+
+            {/* Message */}
+            <p className="text-gray-300 italic leading-relaxed">
+              “{review.message}”
+            </p>
+          </motion.div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 
