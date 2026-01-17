@@ -29,7 +29,7 @@ import image27 from "../images/image27.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const initialSliderImages = [image1, image2, image3, image4, image5, image6, image7, image8,image25,image26,image27];
+const initialSliderImages = [image1, image2, image3, image4, image5, image6, image7, image8, image25, image26, image27];
 
 const Home = () => {
   const [prompt, setPrompt] = useState("");
@@ -119,6 +119,9 @@ const Home = () => {
   return (
     <div className="text-white">
       <PromptForm onSubmit={handleGenerateImage} prompt={prompt} setPrompt={setPrompt} />
+      <div className='w-full text-center text-md font-semibold mt-8 text-red-400'>
+        {prompt ? "To show an image please Scrolling After Generating. and download or else you will lost it." : ""}
+      </div>
       <section>
         <Suggestion setPrompt={setPrompt} />
       </section>
