@@ -17,8 +17,8 @@ const SignIn = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await api.post('/api/auth/signIn', form,{withCredentials:true});
-      login(res.data)
+      const res = await api.post('/api/auth/signIn', form);
+      login(res.data.user, res.data.token)
       toast.success("Logged in successfully");
       navigate('/');
     } catch (error) {

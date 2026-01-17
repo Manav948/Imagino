@@ -23,11 +23,11 @@ export const signUp = async (req, res) => {
         res.cookie("token", token, {
             httpOnly: true,
             maxAge: 7 * 24 * 60 * 60 * 1000,
-            secure: false,
-            sameSite: 'Lax'
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax'
         })
         await user.save();
-        return res.status(200).json(user);
+        return res.status(200).json({ user, token });
     } catch (error) {
         console.log("errror in signUp function :", error);
         res.status(500).json({ message: "Internal server Error" });
@@ -48,11 +48,11 @@ export const signIn = async (req, res) => {
         const token = await generateToken(user._id);
         res.cookie("token", token, {
             httpOnly: true,
-            maxAge: 7 * 60 * 60 * 1000,
-            secure: false,
-            sameSite: 'Lax'
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax'
         })
-        res.status(200).json(user)
+        res.status(200).json({ user, token })
     } catch (error) {
         console.log("Error in singIn function :", error);
         res.status(500).json({ message: "Internal server error" });
