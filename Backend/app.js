@@ -20,12 +20,6 @@ app.use(cookieParser());
 app.use("/api/auth/", router);
 app.use("/api/user/", userRouter)
 
-// Fallback 404 response
-app.use((req, res) => {
-    console.warn('Unhandled request path:', req.originalUrl);
-    res.status(404).json({ message: 'Not Found', path: req.originalUrl });
-});
-
 // Connect DB and start server
 connectDb().then(() => {
     app.listen(PORT, '0.0.0.0', () => {
