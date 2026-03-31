@@ -16,6 +16,8 @@ export const signUp = async (req, res) => {
         const hashPassword = await bcrypt.hash(password, 10);
         const user = new User({
             username,
+            email,
+            password: hashPassword
         })
         const token = await generateToken(user._id);
         res.cookie("token", token, {
@@ -25,7 +27,7 @@ export const signUp = async (req, res) => {
             sameSite: 'Lax'
         })
         await user.save();
-        return res.status(200).json(user);
+        return res.status(200).json({ user, token });
     } catch (error) {
         console.log("errror in signUp function :", error);
         res.status(500).json({ message: "Internal server Error" });
@@ -50,7 +52,7 @@ export const signIn = async (req, res) => {
             secure: false,
             sameSite: 'Lax'
         })
-        res.status(200).json(user)
+        res.status(200).json({ user, token })
     } catch (error) {
         console.log("Error in singIn function :", error);
         res.status(500).json({ message: "Internal server error" });
