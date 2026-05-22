@@ -20,7 +20,7 @@ const SignIn = () => {
       const res = await api.post('/api/auth/signIn', form);
       login(res.data.user, res.data.token)
       toast.success("Logged in successfully");
-      navigate('/');
+      navigate('/generate');
     } catch (error) {
       console.log("Error in SignIn function:", error);
       toast.error(error.response?.data?.message || "Sign in failed.");

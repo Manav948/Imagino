@@ -1,48 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Lenis from "@studio-freight/lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import PromptForm from "../components/Input";
-import ImageCard from "../components/ImageCard";
-import Footer from "../components/Footer";
-import UserRating from "../components/UserRating";
-import Gallery from "../components/Gallery";
-import image from "../images/image24.webp";
-import aboutImage from "../images/image3.png";
-import { generateImage } from "../lib/imageService";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { toast } from "react-hot-toast";
-import HoverExpand from "../components/ui/hover-expand"
-import Suggestion from "../components/Suggestion";
+import HoverExpand from "../components/ui/hover-expand";
+import Gallery from "../components/Gallery";
+import UserRating from "../components/UserRating";
+import aboutImage from "../images/image3.png";
+
+// Importing standard icons from lucide-react
+import { Sparkles, Cpu, Layers, Zap, ArrowRight, Github, Twitter, Lightbulb, Grid } from "lucide-react";
+
 import image1 from "../images/image4.png";
 import image2 from "../images/image5.png";
 import image3 from "../images/image6.png";
-import image4 from "../images/image9.jpg";
-import image5 from "../images/image10.jpg";
-import image6 from "../images/image11.jpg";
+import image4 from "../images/image16.webp";
+import image5 from "../images/image17.webp";
+import image6 from "../images/image23.webp";
 import image7 from "../images/image12.jpg";
 import image8 from "../images/image13.jpg";
 import image25 from "../images/image25.webp";
 import image26 from "../images/image26.webp";
 import image27 from "../images/image27.jpg";
 
-
 gsap.registerPlugin(ScrollTrigger);
 
 const initialSliderImages = [image1, image2, image3, image4, image5, image6, image7, image8, image25, image26, image27];
 
 const Home = () => {
-  const [prompt, setPrompt] = useState("");
-  const [generatedImages, setGeneratedImages] = useState([
-    {
-      imageUrl: image,
-      prompt: "",
-      createdBy: "Admin",
-    },
-  ]);
-  const { user, login } = useAuth();
-  const [sliderImages, setSliderImages] = useState([...initialSliderImages]);
-  const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
+  const [sliderImages] = useState([...initialSliderImages]);
 
   // Smooth Scroll + GSAP setup
   useEffect(() => {
@@ -63,15 +51,15 @@ const Home = () => {
     gsap.utils.toArray(".fade-up").forEach((el) => {
       gsap.fromTo(
         el,
-        { y: 80, opacity: 0 },
+        { y: 60, opacity: 0 },
         {
           y: 0,
           opacity: 1,
-          duration: 2,
+          duration: 1.5,
           ease: "power3.out",
           scrollTrigger: {
             trigger: el,
-            start: "top 85%",
+            start: "top 90%",
             toggleActions: "play none none reverse",
           },
         }
@@ -83,122 +71,508 @@ const Home = () => {
     };
   }, []);
 
-  const handleGenerateImage = async (prompt) => {
-    if (!prompt) {
-      toast.error("Please enter a prompt.");
-      return;
-    }
-    if (!user?._id) {
-      toast.error("Please log in to generate images.");
-      return;
-    }
-    try {
-      setLoading(true);
-      const res = await generateImage(prompt, user._id);
-      const newImage = {
-        imageUrl: res.resultImage,
-        createdBy: user.username || "You",
-      };
-      setGeneratedImages((prev) => [newImage, ...prev]);
-      login({ ...user, imageCount: res.imageCount });
-      toast.success("image generated successfully");
-    } catch (error) {
-      toast.error("Failed to generate image.");
-      console.error("Image generation error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleAddToSlider = (imageUrl) => {
-    if (!sliderImages.includes(imageUrl)) {
-      setSliderImages((prev) => [...prev, imageUrl]);
-    }
-  };
+  const userName = user?.name || user?.email?.split('@')[0] || user?.username || 'Creator';
 
   return (
-    <div className="text-white">
-      <PromptForm onSubmit={handleGenerateImage} prompt={prompt} setPrompt={setPrompt} />
-      <div className='w-full text-center text-md font-semibold mt-8 text-red-400'>
-        {prompt ? "To show an image please Scrolling After Generating. and download or else you will lost it." : ""}
+    <div className="text-white bg-[#0b0b0b] min-h-screen relative overflow-hidden font-sans-modern pt-20">
+      
+      {/* LEFT RULER BORDER */}
+      <div className="absolute left-4 md:left-12 top-0 bottom-0 w-[1px] bg-neutral-800/80 pointer-events-none hidden sm:block z-20">
+        <div className="absolute top-28 flex flex-col gap-20 text-[9px] font-mono text-neutral-600 pl-2">
+          <span>000</span>
+          <span>050</span>
+          <span>100</span>
+          <span>150</span>
+          <span>200</span>
+          <span>250</span>
+          <span>300</span>
+          <span>350</span>
+          <span>400</span>
+          <span>450</span>
+          <span>500</span>
+          <span>550</span>
+          <span>600</span>
+          <span>650</span>
+          <span>700</span>
+          <span>750</span>
+          <span>800</span>
+        </div>
       </div>
-      <section>
-        <Suggestion setPrompt={setPrompt} />
+
+      {/* RIGHT RULER BORDER */}
+      <div className="absolute right-4 md:right-12 top-0 bottom-0 w-[1px] bg-neutral-800/80 pointer-events-none hidden sm:block z-20">
+        <div className="absolute top-28 flex flex-col gap-20 text-[9px] font-mono text-neutral-600 pr-2 right-0 text-right">
+          <span>000</span>
+          <span>050</span>
+          <span>100</span>
+          <span>150</span>
+          <span>200</span>
+          <span>250</span>
+          <span>300</span>
+          <span>350</span>
+          <span>400</span>
+          <span>450</span>
+          <span>500</span>
+          <span>550</span>
+          <span>600</span>
+          <span>650</span>
+          <span>700</span>
+          <span>750</span>
+          <span>800</span>
+        </div>
+      </div>
+
+      {/* HEADER BORDER LINE */}
+      <div className="w-full h-[1px] bg-neutral-800/80 relative">
+        <div className="absolute left-4 md:left-12 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
+        <div className="absolute right-4 md:right-12 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
+      </div>
+
+      {/* HERO SECTION */}
+      <section className="relative px-6 md:px-24 py-16 md:py-28 max-w-7xl mx-auto z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        {/* Left Side: Editorial Typography & Copy */}
+        <div className="lg:col-span-7 flex flex-col items-start text-left">
+          
+          {/* Animated Tech Badge */}
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded border border-neutral-800 bg-[#111111]/85 text-xs text-neutral-400 font-mono mb-6">
+            <span className="w-2 h-2 rounded-full bg-[#ff4a1c] animate-ping" />
+            IMAGINO.ENGINE_V1.4
+          </div>
+
+          {/* Heading */}
+          <h1 className="text-4xl sm:text-6xl font-normal leading-tight text-white mb-6 font-editorial">
+            Your prompts aren't linear.
+            <br />
+            <span className="text-neutral-400 italic">Your engine shouldn't be either.</span>
+          </h1>
+
+          {/* Subheading Description */}
+          <p className="text-neutral-400 text-sm sm:text-base max-w-xl leading-relaxed mb-8">
+            A graph-based latency diffusion engine built with prompt suggestion nodes, 
+            model checkpointing, and instant asset compile. Designed for production-level AI art creations.
+          </p>
+
+          {/* Call To Actions */}
+          <div className="flex flex-col sm:flex-row gap-4 items-center w-full sm:w-auto">
+            {user ? (
+              <div className="flex flex-col items-start gap-3">
+                <span className="text-xs text-neutral-500 font-mono">
+                  ACTIVE_USER: <span className="text-[#ff4a1c] font-semibold">{userName}</span>
+                </span>
+                <Link to="/generate">
+                  <button className="flex items-center gap-2 px-6 py-3.5 text-xs font-bold uppercase tracking-wider bg-[#ff4a1c] text-white hover:brightness-110 active:scale-95 transition-all shadow-[0_4px_20px_rgba(255,74,28,0.25)] rounded">
+                    Open Playground <ArrowRight className="w-4 h-4" />
+                  </button>
+                </Link>
+              </div>
+            ) : (
+              <>
+                <Link to="/signin" className="w-full sm:w-auto">
+                  <button className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 text-xs font-bold uppercase tracking-wider bg-[#ff4a1c] text-white hover:brightness-110 active:scale-95 transition-all shadow-[0_4px_20px_rgba(255,74,28,0.25)] rounded">
+                    Get Started <ArrowRight className="w-4 h-4" />
+                  </button>
+                </Link>
+                <Link to="/signup" className="w-full sm:w-auto">
+                  <button className="w-full sm:w-auto px-6 py-3.5 text-xs font-bold uppercase tracking-wider border border-neutral-800 hover:bg-neutral-900 text-neutral-300 rounded transition-all">
+                    Create Account
+                  </button>
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* Right Side: Animated Isometric Node Graph Mockup */}
+        <div className="lg:col-span-5 flex items-center justify-center w-full relative">
+          <div className="relative w-full max-w-sm h-[400px] flex items-center justify-center pointer-events-none">
+            
+            {/* Ambient Background Radial Glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-[#ff4a1c]/10 rounded-full blur-[80px]" />
+
+            {/* 3D Isometric Viewport Container */}
+            <div 
+              className="relative w-72 h-72 animate-float"
+              style={{
+                transformStyle: "preserve-3d",
+                perspective: "1000px",
+              }}
+            >
+              {/* Grid Base (Bottom) */}
+              <div 
+                className="absolute inset-0 bg-[#121212]/80 border border-neutral-800 rounded-xl shadow-2xl flex flex-col justify-between p-4"
+                style={{ transform: "translateZ(0px)" }}
+              >
+                <div className="flex justify-between items-center text-[8px] font-mono text-neutral-600">
+                  <span>BASE_MATRIX</span>
+                  <span>[4x4]</span>
+                </div>
+                <div className="grid grid-cols-4 gap-3 w-full h-32 my-2">
+                  {[...Array(16)].map((_, i) => (
+                    <div 
+                      key={i} 
+                      className="w-1.5 h-1.5 rounded-full bg-neutral-800 animate-pulse" 
+                      style={{ animationDelay: `${i * 100}ms` }} 
+                    />
+                  ))}
+                </div>
+                <div className="h-2 w-full bg-neutral-900 rounded-full overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-neutral-800 via-[#ff4a1c]/50 to-neutral-800 w-2/3 animate-[pulse_2s_infinite]" />
+                </div>
+              </div>
+
+              {/* Vertical Laser Beam connector */}
+              <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ transform: "translateZ(10px)", transformStyle: "preserve-3d" }}>
+                <line x1="50%" y1="50%" x2="50%" y2="50%" stroke="#ff4a1c" strokeWidth="1.5" strokeDasharray="3 3" className="animate-flow-dash" />
+              </svg>
+
+              {/* Intermediate Code Layer (Middle) */}
+              <div 
+                className="absolute inset-6 bg-[#161616]/90 border border-neutral-800/80 rounded-lg p-3 shadow-xl flex flex-col justify-between"
+                style={{ 
+                  transform: "translateZ(40px)",
+                  transformStyle: "preserve-3d"
+                }}
+              >
+                <div className="flex justify-between text-[8px] font-mono text-[#ff4a1c]">
+                  <span>LATENT_FLOW</span>
+                  <span>98.6% ACC</span>
+                </div>
+                <div className="space-y-1 my-2">
+                  <div className="h-1 bg-[#ff4a1c]/40 rounded w-4/5" />
+                  <div className="h-1 bg-neutral-800 rounded w-11/12" />
+                  <div className="h-1 bg-neutral-800 rounded w-3/4" />
+                  <div className="h-1 bg-[#ff4a1c] rounded w-1/2" />
+                </div>
+                <div className="text-[7px] text-neutral-500 font-mono">
+                  DENSE_BLOCK_ENCODE
+                </div>
+              </div>
+
+              {/* Render Output Canvas (Top) */}
+              <div 
+                className="absolute inset-12 bg-[#0c0c0c] border border-neutral-700 rounded-md shadow-[0_0_20px_rgba(255,74,28,0.2)] overflow-hidden flex items-center justify-center"
+                style={{ 
+                  transform: "translateZ(80px)",
+                  transformStyle: "preserve-3d"
+                }}
+              >
+                <img 
+                  src={image1} 
+                  alt="Isometric representation" 
+                  className="w-full h-full object-cover filter saturate-50 contrast-125 opacity-70 hover:opacity-100 transition-opacity" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-2">
+                  <span className="text-[8px] text-white font-mono uppercase tracking-wider font-semibold">DIFFUSION_RESO</span>
+                </div>
+              </div>
+
+              {/* Floating Side Tags */}
+              <div 
+                className="absolute -left-6 top-8 bg-neutral-900 border border-neutral-800 py-1 px-2.5 rounded shadow-lg text-[8px] font-mono text-green-400"
+                style={{ transform: "translateZ(50px)" }}
+              >
+                INPUT: "retro cybercity"
+              </div>
+
+              <div 
+                className="absolute -right-6 bottom-16 bg-neutral-900 border border-[#ff4a1c]/30 py-1 px-2.5 rounded shadow-lg text-[8px] font-mono text-[#ff4a1c]"
+                style={{ transform: "translateZ(90px)" }}
+              >
+                RESOLVED_NODE
+              </div>
+
+            </div>
+          </div>
+        </div>
+
       </section>
-      {/* Section 1 */}
-      <div className="mt-16 text-center fade-up">
-        <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 text-transparent bg-clip-text">
-          Explore Stunning AI Art Gallery
-        </h2>
-        <p className="mt-2 text-gray-400 text-base md:text-lg">
-          Discover unique creations made with powerful AI imagination.
-        </p>
+
+      {/* SECTION DIVIDER */}
+      <div className="relative w-full h-[1px] bg-neutral-800/80 my-12">
+        <div className="absolute left-4 md:left-12 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
+        <div className="absolute right-4 md:right-12 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
       </div>
-      {/* Section 2 */}
 
+      {/* CORE ENGINE BENTO FEATURES GRID */}
+      <section className="relative max-w-7xl mx-auto px-6 md:px-24 py-16 z-10 fade-up">
+        
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-neutral-800 bg-[#111111] text-xs text-neutral-400 font-mono mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#ff4a1c]" />
+            Core Engine Features
+          </div>
+          <h2 className="text-3xl md:text-5xl font-editorial font-normal leading-tight">
+            Everything you need to build <span className="italic text-neutral-400">powerful aesthetics</span>
+          </h2>
+        </div>
 
-      {/* Section 3 */}
-      <div className="flex flex-wrap justify-center items-center gap-4 mt-10 px-4 fade-up">
-        {generatedImages.map((img, index) => (
-          <ImageCard
-            key={index}
-            imageUrl={img.imageUrl}
-            prompt={img.prompt}
-            createdBy={img.createdBy}
-            onAddToSlider={handleAddToSlider}
+        {/* Bento Grid layout */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 max-w-6xl mx-auto">
+          
+          {/* Card 1: Left Column, Tall (Spans 4 columns in grid) */}
+          <div className="md:col-span-4 bg-[#111111]/70 border border-neutral-800 hover:border-neutral-700 transition-all rounded-xl p-6 flex flex-col justify-between min-h-[360px] group shadow-lg">
+            <div>
+              <div className="w-10 h-10 rounded bg-[#ff4a1c]/10 border border-[#ff4a1c]/20 flex items-center justify-center text-[#ff4a1c] mb-6">
+                <Zap className="w-5 h-5" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Sub-Second Generation</h3>
+              <p className="text-xs text-neutral-400 leading-relaxed">
+                Unlock instantaneous creative compile times. Built with compiled PyTorch weights and optimized token execution arrays for faster outputs.
+              </p>
+            </div>
+            
+            {/* Visual element */}
+            <div className="relative w-full h-32 mt-6 bg-[#0c0c0c] border border-neutral-900 rounded-lg flex items-center justify-center overflow-hidden">
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,74,28,0.08),transparent)]" />
+              <div className="relative flex items-center gap-3">
+                <span className="text-2xl font-black text-white font-mono tracking-tighter">0.74s</span>
+                <span className="text-[10px] text-green-400 font-mono bg-green-950/50 px-2 py-0.5 border border-green-800/30 rounded">LATENCY</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Column 2 (Middle): Spans 4 columns and stacks two cards */}
+          <div className="md:col-span-4 flex flex-col gap-6">
+            
+            {/* Card 2: Suggestion Engine (Top Stack) */}
+            <div className="bg-[#111111]/70 border border-neutral-800 hover:border-neutral-700 transition-all rounded-xl p-6 flex flex-col justify-between min-h-[168px] group shadow-lg">
+              <div>
+                <div className="flex justify-between items-start">
+                  <h3 className="text-sm font-bold text-white mb-1.5 flex items-center gap-2">
+                    <Lightbulb className="w-4 h-4 text-[#ff4a1c]" /> Suggestion Propts
+                  </h3>
+                  <span className="text-[8px] font-mono text-neutral-500">[NODE_LINKED]</span>
+                </div>
+                <p className="text-xs text-neutral-400 leading-relaxed">
+                  Stuck on ideas? Toggle style recommendations instantly combining cinematic lighting, mood parameters, and artist palettes.
+                </p>
+              </div>
+              
+              <div className="flex gap-2 flex-wrap mt-4">
+                <span className="text-[9px] font-mono text-neutral-400 bg-neutral-900 border border-neutral-800 py-0.5 px-2 rounded">"Cinematic Lighting"</span>
+                <span className="text-[9px] font-mono text-neutral-400 bg-neutral-900 border border-neutral-800 py-0.5 px-2 rounded">"Cyberpunk"</span>
+                <span className="text-[9px] font-mono text-neutral-400 bg-[#ff4a1c]/10 border border-[#ff4a1c]/25 text-[#ff4a1c] py-0.5 px-2 rounded animate-pulse">"Realistic"</span>
+              </div>
+            </div>
+
+            {/* Card 3: Model Alignment (Bottom Stack) */}
+            <div className="bg-[#111111]/70 border border-neutral-800 hover:border-neutral-700 transition-all rounded-xl p-6 flex flex-col justify-between min-h-[168px] group shadow-lg">
+              <div>
+                <div className="flex justify-between items-start">
+                  <h3 className="text-sm font-bold text-white mb-1.5 flex items-center gap-2">
+                    <Cpu className="w-4 h-4 text-[#ff4a1c]" /> AI prompt Compilers
+                  </h3>
+                  <span className="text-[8px] font-mono text-neutral-500">[GUIDE_SCALE]</span>
+                </div>
+                <p className="text-xs text-neutral-400 leading-relaxed">
+                  Automatically parses raw inputs, structuring guidance tags to align text vectors cleanly with latent image layers.
+                </p>
+              </div>
+              
+              <div className="h-1 w-full bg-neutral-900 rounded overflow-hidden mt-4">
+                <div className="h-full bg-gradient-to-r from-cyan-500 to-[#ff4a1c] w-3/4 animate-pulse" />
+              </div>
+            </div>
+
+          </div>
+
+          {/* Card 4: Right Column, Tall (Spans 4 columns in grid) */}
+          <div className="md:col-span-4 bg-[#111111]/70 border border-neutral-800 hover:border-neutral-700 transition-all rounded-xl p-6 flex flex-col justify-between min-h-[360px] group shadow-lg">
+            <div>
+              <div className="w-10 h-10 rounded bg-[#ff4a1c]/10 border border-[#ff4a1c]/20 flex items-center justify-center text-[#ff4a1c] mb-6">
+                <Grid className="w-5 h-5" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">High-Fidelity Showcases</h3>
+              <p className="text-xs text-neutral-400 leading-relaxed">
+                Review generated pieces in high dynamic contrast. Add creations to our global trending carousel or download lossy-free JPG exports.
+              </p>
+            </div>
+            
+            {/* Visual element */}
+            <div className="relative w-full h-32 mt-6 rounded-lg overflow-hidden border border-neutral-900">
+              <img 
+                src={image2} 
+                alt="Showcase crop" 
+                className="w-full h-full object-cover opacity-75 filter grayscale group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500" 
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
+              <div className="absolute bottom-2 left-2 right-2 flex justify-between items-center">
+                <span className="text-[8px] font-mono text-neutral-400">1024x1024_PNG</span>
+                <span className="text-[8px] font-mono text-[#ff4a1c]">DOWNLOAD_ACTIVE</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* SECTION DIVIDER */}
+      <div className="relative w-full h-[1px] bg-neutral-800/80 my-12">
+        <div className="absolute left-4 md:left-12 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
+        <div className="absolute right-4 md:right-12 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
+      </div>
+
+      {/* TRENDING AI SLIDER SHOWCASE */}
+      <section className="py-16 fade-up">
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-neutral-800 bg-[#111111] text-xs text-neutral-400 font-mono mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#ff4a1c]" />
+            Masterpiece Slider
+          </div>
+          <h3 className="text-3xl md:text-5xl font-editorial font-normal mb-4">
+            Deep Dive Into Our <span className="italic text-neutral-400">AI Creations</span>
+          </h3>
+          <p className="text-neutral-400 text-sm max-w-lg mx-auto leading-relaxed">
+            Hover to expand and investigate stunning details of images compiled by community users.
+          </p>
+        </div>
+        <div>
+          <HoverExpand
+            images={sliderImages}
+            initialSelectedIndex={0}
+            thumbnailHeight={200}
+            modalImageSize={400}
+            maxThumbnails={11}
           />
-        ))}
+        </div>
+      </section>
+
+      {/* SECTION DIVIDER */}
+      <div className="relative w-full h-[1px] bg-neutral-800/80 my-12">
+        <div className="absolute left-4 md:left-12 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
+        <div className="absolute right-4 md:right-12 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
       </div>
 
+      {/* GALLERY SHOWCASE */}
+      <section className="fade-up">
+        <Gallery />
+      </section>
 
-
-      {/* Section  */}
-      <div className="mt-20 text-center fade-up">
-        <h3 className="text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
-          Deep Dive Into Our AI Creations
-        </h3>
-        <div className="w-96 h-1 mx-auto bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 rounded-full shadow-md shadow-purple-500/30" />
-      </div>
-      <div className="mt-20 fade-up">
-        <HoverExpand
-          images={sliderImages}
-          initialSelectedIndex={0}
-          thumbnailHeight={200}
-          modalImageSize={400}
-          maxThumbnails={11}
-        />
+      {/* SECTION DIVIDER */}
+      <div className="relative w-full h-[1px] bg-neutral-800/80 my-12">
+        <div className="absolute left-4 md:left-12 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
+        <div className="absolute right-4 md:right-12 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
       </div>
 
-      {/* About Section */}
-      <section className="mt-24 px-6 md:px-20 fade-up">
-        <div className="relative rounded-3xl bg-gradient-to-br from-[#ffffff0a] via-[#ffffff10] to-[#ffffff05] backdrop-blur-md shadow-lg border border-white/10 p-8 md:p-12 flex flex-col md:flex-row gap-10 items-center">
-          <div className="absolute -top-8 -left-8 w-52 h-52 bg-gradient-to-tr from-purple-500 via-pink-500 to-indigo-500 rounded-full blur-3xl opacity-30 z-0" />
-          <div className="absolute -bottom-8 -right-8 w-52 h-52 bg-gradient-to-tr from-pink-500 via-purple-500 to-indigo-500 rounded-full blur-3xl opacity-50 z-0" />
-          <div className="relative z-10 w-full md:w-1/2 text-white">
-            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-500 text-transparent bg-clip-text mb-5">
-              Unlock Creativity with Smarter Prompts
+      {/* ABOUT PROMPTIFY SECTION */}
+      <section className="px-6 md:px-24 py-12 max-w-7xl mx-auto z-10 fade-up">
+        <div className="relative rounded-2xl bg-[#111111]/60 border border-neutral-800 p-8 md:p-12 flex flex-col md:flex-row gap-10 items-center">
+          <div className="relative z-10 w-full md:w-1/2">
+            <h2 className="text-3xl md:text-4xl font-editorial font-normal mb-5 leading-tight">
+              Unlock Creativity with <span className="italic text-neutral-400">Smarter Prompts</span>
             </h2>
-            <p className="text-base text-gray-300 leading-relaxed">
+            <p className="text-sm text-neutral-400 leading-relaxed mb-4">
               Discover the power of <span className="text-white font-semibold">Promptify.AI</span> — your creative co-pilot for crafting detailed and inspiring prompts.
-              <br />
-              <br />
-              Effortlessly combine{" "}
-              <span className="text-white font-semibold">concepts, styles, moods, and lighting</span> to bring your imagination to life.
+            </p>
+            <p className="text-sm text-neutral-400 leading-relaxed">
+              Effortlessly combine concepts, styles, moods, and lighting to bring your imagination to life. Compile tags step-by-step and steer our neural weights precisely.
             </p>
           </div>
           <div className="relative z-10 w-full md:w-1/2 flex justify-center">
             <img
               src={aboutImage}
               alt="About Promptify.AI"
-              className="rounded-2xl shadow-2xl w-full max-w-xs object-cover"
+              className="rounded border border-neutral-800 shadow-2xl w-full max-w-xs object-cover filter contrast-110 saturate-75"
             />
           </div>
         </div>
-        <Gallery />
+      </section>
+
+      {/* SECTION DIVIDER */}
+      <div className="relative w-full h-[1px] bg-neutral-800/80 my-12">
+        <div className="absolute left-4 md:left-12 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
+        <div className="absolute right-4 md:right-12 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
+      </div>
+
+      {/* REVIEWS SECTION */}
+      <section className="fade-up">
         <UserRating />
       </section>
-      <Footer />
+
+      {/* FOOTER SECTION (Blueprint Style) */}
+      <footer className="relative max-w-7xl mx-auto px-6 md:px-24 pt-20 pb-12 z-10">
+        
+        {/* Footer Top Border line */}
+        <div className="w-full h-[1px] bg-neutral-800/80 relative mb-16">
+          <div className="absolute left-0 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
+          <div className="absolute right-0 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
+        </div>
+
+        {/* Brand Banner */}
+        <div className="flex flex-col items-center mb-16 text-center">
+          <div className="w-12 h-12 bg-[#ff4a1c] rounded flex items-center justify-center font-black text-black text-2xl mb-4">
+            I
+          </div>
+          <h3 className="text-2xl font-editorial font-normal mb-1">
+            Designed & developed for <span className="italic">Imagino AI</span>
+          </h3>
+          <p className="text-xs text-neutral-500 font-mono">CODEBASE_VERSION_1.0.4</p>
+          <div className="flex gap-4 mt-6">
+            <a href="https://github.com" className="p-2 border border-neutral-800 hover:bg-neutral-900 rounded-full text-neutral-400 hover:text-white transition">
+              <Github className="w-4 h-4" />
+            </a>
+            <a href="https://x.com" className="p-2 border border-neutral-800 hover:bg-neutral-900 rounded-full text-neutral-400 hover:text-white transition">
+              <Twitter className="w-4 h-4" />
+            </a>
+          </div>
+        </div>
+
+        {/* Footer Links Grid with Vertical Borders */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-neutral-800/80 pt-12 text-left">
+          
+          <div className="space-y-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-400 font-mono">Product</h4>
+            <ul className="space-y-2 text-xs text-neutral-500">
+              <li><Link to="/generate" className="hover:text-white transition">Playground</Link></li>
+              <li><a href="#" className="hover:text-white transition">API Keys</a></li>
+              <li><a href="#" className="hover:text-white transition">Models</a></li>
+              <li><a href="#" className="hover:text-white transition">Pricing Credits</a></li>
+            </ul>
+          </div>
+
+          <div className="space-y-4 md:border-l md:border-neutral-800/80 md:pl-8">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-400 font-mono">Resources</h4>
+            <ul className="space-y-2 text-xs text-neutral-500">
+              <li><a href="#" className="hover:text-white transition">Documentation</a></li>
+              <li><a href="#" className="hover:text-white transition">Guides</a></li>
+              <li><a href="#" className="hover:text-white transition">Model Zoo</a></li>
+              <li><a href="#" className="hover:text-white transition">System Status</a></li>
+            </ul>
+          </div>
+
+          <div className="space-y-4 md:border-l md:border-neutral-800/80 md:pl-8">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-400 font-mono">Developers</h4>
+            <ul className="space-y-2 text-xs text-neutral-500">
+              <li><a href="#" className="hover:text-white transition">API Reference</a></li>
+              <li><a href="#" className="hover:text-white transition">SDKs</a></li>
+              <li><a href="#" className="hover:text-white transition">GitHub Repo</a></li>
+              <li><a href="#" className="hover:text-white transition">Discussions</a></li>
+            </ul>
+          </div>
+
+          <div className="space-y-4 md:border-l md:border-neutral-800/80 md:pl-8">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-400 font-mono">Legal</h4>
+            <ul className="space-y-2 text-xs text-neutral-500">
+              <li><a href="#" className="hover:text-white transition">Terms of Service</a></li>
+              <li><a href="#" className="hover:text-white transition">Privacy Policy</a></li>
+              <li><a href="#" className="hover:text-white transition">License</a></li>
+              <li><a href="#" className="hover:text-white transition">Contact Support</a></li>
+            </ul>
+          </div>
+
+        </div>
+
+        <p className="text-center text-[10px] text-neutral-600 font-mono mt-16">
+          &copy; {new Date().getFullYear()} Imagino AI. Built with premium tech blueprint style.
+        </p>
+
+      </footer>
+
     </div>
   );
 };
+
 export default Home;

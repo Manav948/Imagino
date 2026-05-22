@@ -20,7 +20,7 @@ const SignUp = () => {
       const res = await api.post('/api/auth/signup', form);
       login(res.data.user, res.data.token);
       toast.success('Sign up successful!');
-      navigate('/')
+      navigate('/generate')
     } catch (error) {
       console.log("Error in SignUp function:", error);
       toast.error(error.response?.data?.message || "Sign up failed.");

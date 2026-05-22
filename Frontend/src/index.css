@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -85,13 +87,78 @@ html {
 }
 
 .btn-primary {
-  @apply px-4 py-2 font-semibold bg-gradient-to-r from-green-500 to-yellow-500 text-black rounded-xl shadow-md hover:scale-105 transition;
+  @apply px-4 py-2 font-semibold bg-[#ff4a1c] text-white rounded-md shadow-md hover:brightness-110 active:scale-95 transition;
 }
 
 .btn-purple {
-  @apply px-4 py-2 font-semibold bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl shadow-md hover:scale-105 transition;
+  @apply px-4 py-2 font-semibold bg-[#ff4a1c] text-white rounded-md shadow-md hover:brightness-110 active:scale-95 transition;
 }
 
 .btn-pink {
-  @apply px-4 py-2 font-semibold bg-gradient-to-r from-pink-500 to-fuchsia-600 text-white rounded-xl shadow-md hover:scale-105 transition;
+  @apply px-4 py-2 font-semibold bg-[#ff4a1c] text-white rounded-md shadow-md hover:brightness-110 active:scale-95 transition;
+}
+
+/* Custom Tech Blueprint Aesthetics */
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: #0b0b0b;
+}
+
+.font-editorial {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.font-sans-modern {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotateX(10deg) rotateY(-10deg);
+  }
+  50% {
+    transform: translateY(-12px) rotateX(8deg) rotateY(-12deg);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float-simple {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-float-simple {
+  animation: float-simple 4s ease-in-out infinite;
+}
+
+@keyframes flow-dash {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+.animate-flow-dash {
+  stroke-dasharray: 8 4;
+  animation: flow-dash 1.5s linear infinite;
+}
+
+@keyframes grid-pulse {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.animate-grid-pulse {
+  animation: grid-pulse 8s ease-in-out infinite;
 }

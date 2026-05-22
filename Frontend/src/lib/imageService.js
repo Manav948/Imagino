@@ -1,9 +1,9 @@
 import api from './axios.js';
 
-export const generateImage = async (prompt, userId) => {
+export const generateImage = async (prompt, userId, options = {}) => {
   const res = await api.post(
     '/api/user/generate-image',
-    { prompt, userId }
+    { prompt, userId, ...options }
   );
   return res.data;
 };
