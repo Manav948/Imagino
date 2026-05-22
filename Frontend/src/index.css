@@ -126,6 +126,47 @@ body {
   animation: float 6s ease-in-out infinite;
 }
 
+/* Isometric 3D Float Animation */
+@keyframes float-isometric {
+  0%, 100% {
+    transform: rotateX(54.7deg) rotateY(0deg) rotateZ(-45deg) translateY(0px);
+  }
+  50% {
+    transform: rotateX(54.7deg) rotateY(0deg) rotateZ(-45deg) translateY(-15px);
+  }
+}
+
+.animate-float-isometric {
+  animation: float-isometric 6s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.transition-3d {
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), 
+              width 0.7s cubic-bezier(0.16, 1, 0.3, 1), 
+              height 0.7s cubic-bezier(0.16, 1, 0.3, 1), 
+              opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(300%);
+  }
+}
+
+.animate-scanline {
+  animation: scanline 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
 @keyframes float-simple {
   0%, 100% {
     transform: translateY(0);
@@ -162,3 +203,17 @@ body {
 .animate-grid-pulse {
   animation: grid-pulse 8s ease-in-out infinite;
 }
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(255, 74, 28, 0.15), inset 0 0 10px rgba(255, 74, 28, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(255, 74, 28, 0.45), inset 0 0 20px rgba(255, 74, 28, 0.2);
+  }
+}
+
+.glow-orange-3d {
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+

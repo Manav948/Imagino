@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { MessageSquareCode } from "lucide-react";
 import image1 from "../images/image14.png";
 import image2 from "../images/image15.png";
 import image3 from "../images/image16.webp";
@@ -34,44 +35,64 @@ const reviews = [
 
 const UserReviews = () => {
   return (
-    <section className="mt-32 px-6 md:px-20">
+    <section className="mt-32 px-6 md:px-24 relative">
+      {/* Background coordinate grid helper lines */}
+      <div className="absolute left-6 md:left-24 right-6 md:right-24 top-0 h-[1px] bg-neutral-800/80" />
+      
       {/* Heading */}
-      <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 bg-gradient-to-r from-yellow-400 to-pink-500 text-transparent bg-clip-text">
-        What Our Users Say
-      </h2>
-      <p className="text-center text-sm text-gray-400 mb-4 sm:hidden">
-        Swipe to see more →
-      </p>
-      {/* Review Cards */}
-      <div className="flex gap-6 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-hide">
+      <div className="text-center mb-16 pt-12">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded border border-neutral-800 bg-[#111111] text-[9px] font-mono text-neutral-500 mb-4">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#ff4a1c]" />
+          FEEDBACK_TELEMETRY
+        </div>
+        <h2 className="text-3xl md:text-5xl font-editorial font-normal leading-tight">
+          Synthesizer <span className="italic text-neutral-400">User Reviews</span>
+        </h2>
+      </div>
+
+      {/* Review Cards Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
         {reviews.map((review, index) => (
           <motion.div
             key={index}
-            whileHover={{ y: -8 }}
-            transition={{ type: "spring", stiffness: 200 }}
-            className="snap-start relative min-w-[280px] max-w-sm rounded-2xl 
-                       bg-white/5 backdrop-blur-xl border border-white/10 
-                       p-6 text-white shadow-xl hover:border-pink-500/30"
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.2 }}
+            className="relative rounded bg-[#111111]/40 border border-neutral-800 p-6 flex flex-col justify-between hover:border-[#ff4a1c]/60 hover:shadow-[0_0_15px_rgba(255,74,28,0.05)] transition-all duration-300"
           >
-            {/* Glow */}
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-purple-500/10 via-pink-500/10 to-indigo-500/10 blur-2xl -z-10" />
-            {/* User */}
-            <div className="flex items-center gap-4 mb-4">
-              <img
-                src={review.image}
-                alt={review.name}
-                className="w-12 h-12 rounded-full border border-white/20 object-cover"
-              />
-              <div>
-                <p className="font-semibold">{review.name}</p>
-                <p className="text-sm text-gray-400">{review.location}</p>
-              </div>
+            {/* Corner Bracket decorations */}
+            <div className="absolute top-0 right-0 p-2 text-[8px] font-mono text-neutral-600">
+              VERIFIED_OP_0{index + 1}
+            </div>
+            
+            <div className="absolute -top-[3px] left-6 w-1.5 h-1.5 bg-[#ff4a1c]" />
+
+            {/* Message block */}
+            <div className="mb-6 relative">
+              <MessageSquareCode className="w-4 h-4 text-neutral-600 mb-3" />
+              <p className="font-mono text-[11px] text-neutral-400 leading-relaxed italic">
+                “{review.message}”
+              </p>
             </div>
 
-            {/* Message */}
-            <p className="text-gray-300 italic leading-relaxed">
-              “{review.message}”
-            </p>
+            {/* User Details */}
+            <div className="flex items-center gap-3 border-t border-neutral-900 pt-4 mt-auto">
+              <div className="relative flex-shrink-0">
+                <img
+                  src={review.image}
+                  alt={review.name}
+                  className="w-10 h-10 rounded-sm border border-neutral-800 object-cover filter saturate-[0.8]"
+                />
+                <div className="absolute -top-0.5 -left-0.5 w-1 h-1 bg-[#ff4a1c]" />
+              </div>
+              <div className="overflow-hidden">
+                <p className="font-mono text-xs font-bold text-white truncate uppercase tracking-wider">
+                  {review.name}
+                </p>
+                <p className="font-mono text-[9px] text-[#ff4a1c]">
+                  LOC // {review.location.toUpperCase()}
+                </p>
+              </div>
+            </div>
           </motion.div>
         ))}
       </div>
