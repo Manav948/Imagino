@@ -24,12 +24,12 @@ const cropImageToAspectRatio = (base64Str, aspectRatio) => {
     img.onload = () => {
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
-      
+
       const width = img.width;
       const height = img.height;
       let targetWidth = width;
       let targetHeight = height;
-      
+
       if (aspectRatio === "16:9") {
         targetHeight = width * (9 / 16);
       } else if (aspectRatio === "9:16") {
@@ -38,20 +38,20 @@ const cropImageToAspectRatio = (base64Str, aspectRatio) => {
         resolve(base64Str);
         return;
       }
-      
+
       canvas.width = targetWidth;
       canvas.height = targetHeight;
-      
+
       // Center crop
       const sx = (width - targetWidth) / 2;
       const sy = (height - targetHeight) / 2;
-      
+
       ctx.drawImage(
         img,
         sx, sy, targetWidth, targetHeight, // Source coords
         0, 0, targetWidth, targetHeight   // Dest coords
       );
-      
+
       resolve(canvas.toDataURL("image/png"));
     };
     img.onerror = () => {
@@ -123,7 +123,7 @@ const Generate = () => {
   if (!user) {
     return (
       <div className="min-h-screen bg-[#0b0b0b] text-white pt-24 pb-20 relative overflow-hidden font-sans-modern">
-        
+
         {/* Border Rulers */}
         <div className="absolute left-4 md:left-12 top-0 bottom-0 w-[1px] bg-neutral-800/80 pointer-events-none hidden sm:block z-20">
           <div className="absolute top-28 flex flex-col gap-20 text-[9px] font-mono text-neutral-600 pl-2">
@@ -177,7 +177,7 @@ const Generate = () => {
 
   return (
     <div className="min-h-screen bg-[#0b0b0b] text-white pt-24 pb-20 relative overflow-hidden font-sans-modern">
-      
+
       {/* LEFT RULER BORDER */}
       <div className="absolute left-4 md:left-12 top-0 bottom-0 w-[1px] bg-neutral-800/80 pointer-events-none hidden sm:block z-20">
         <div className="absolute top-28 flex flex-col gap-20 text-[9px] font-mono text-neutral-600 pl-2">
@@ -199,7 +199,7 @@ const Generate = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 md:px-24 z-10 relative">
-        
+
         {/* Workspace Title & Stats Banner */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-end border-b border-neutral-800/80 pb-6 mb-10 gap-4">
           <div>
@@ -211,7 +211,7 @@ const Generate = () => {
               AI Generation <span className="italic text-neutral-400">Workspace</span>
             </h1>
           </div>
-          
+
           <div className="flex items-center gap-3 bg-[#111111] border border-neutral-800 px-4 py-2 rounded">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-ping" />
             <span className="text-xs font-mono text-neutral-400">
@@ -222,12 +222,12 @@ const Generate = () => {
 
         {/* WORKSPACE GRID: Prompt Workspace + Settings Dashboard */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
+
           {/* Left Area: Inputs & Suggestions (8 columns) */}
           <div className="lg:col-span-8 space-y-6">
             <div className="bg-[#111111]/40 border border-neutral-800 rounded-xl p-6 shadow-md">
               <PromptForm onSubmit={handleGenerateImage} prompt={prompt} setPrompt={setPrompt} />
-              
+
               <div className="text-center text-[10px] text-neutral-500 font-mono mt-4">
                 ⚠️ Session-only buffer storage. Please download generated images to prevent loss.
               </div>
@@ -241,7 +241,7 @@ const Generate = () => {
 
           {/* Right Area: Generation Parameters Dashboard (4 columns) */}
           <div className="lg:col-span-4 bg-[#111111]/60 border border-neutral-800 rounded-xl p-6 shadow-lg space-y-6">
-            
+
             <div className="flex items-center gap-2 pb-4 border-b border-neutral-800">
               <Sliders className="w-4 h-4 text-[#ff4a1c]" />
               <h3 className="text-sm font-bold uppercase tracking-wider text-neutral-300 font-mono">
@@ -293,11 +293,10 @@ const Generate = () => {
                   <button
                     key={ratio}
                     onClick={() => setAspectRatio(ratio)}
-                    className={`py-1.5 text-xs font-mono border rounded transition ${
-                      aspectRatio === ratio
+                    className={`py-1.5 text-xs font-mono border rounded transition ${aspectRatio === ratio
                         ? "bg-[#ff4a1c]/10 border-[#ff4a1c] text-white"
                         : "bg-neutral-900 border-neutral-800 text-neutral-500 hover:text-white"
-                    }`}
+                      }`}
                   >
                     {ratio}
                   </button>
@@ -366,7 +365,7 @@ const Generate = () => {
 
         {/* EXPANDED SECTION A: API COMPILATION PROTOCOL */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
+
           <div className="lg:col-span-5 space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded border border-neutral-800 bg-[#111111] text-[9px] font-mono text-neutral-500">
               <Terminal className="w-3.5 h-3.5 text-[#ff4a1c]" />
@@ -386,7 +385,7 @@ const Generate = () => {
               <span>BASH</span>
             </div>
             <pre className="text-[10px] font-mono text-neutral-300 overflow-x-auto whitespace-pre leading-relaxed p-2 rounded bg-black/40">
-{`curl -X POST "https://api.imagino.ai/v1/generate" \\
+              {`curl -X POST "https://api.imagino.ai/v1/generate" \\
   -H "Authorization: Bearer ${user?._id || 'YOUR_API_TOKEN'}" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -396,7 +395,7 @@ const Generate = () => {
     "steps": ${steps}
   }'`}
             </pre>
-          </div>
+          </div>z
 
         </div>
 
@@ -408,7 +407,7 @@ const Generate = () => {
 
         {/* EXPANDED SECTION B: PROMPT COMPILING INSTRUCTIONS */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
+
           <div className="lg:col-span-4 space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded border border-neutral-800 bg-[#111111] text-[9px] font-mono text-neutral-500">
               <BookOpen className="w-3.5 h-3.5 text-[#ff4a1c]" />
@@ -423,7 +422,7 @@ const Generate = () => {
           </div>
 
           <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            
+
             <div className="bg-[#111111]/40 border border-neutral-800 rounded-lg p-5 space-y-2">
               <h4 className="text-xs font-mono font-bold text-white flex items-center gap-2">
                 <Sparkles className="w-3.5 h-3.5 text-[#ff4a1c]" /> LIGHTING_WEIGHTS

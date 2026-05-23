@@ -31,8 +31,8 @@ const PromptForm = ({ onSubmit , prompt , setPrompt }) => {
       <button
         type='submit'
         disabled={loading}
-        className="bg-gradient-to-r from-blue-600 via-purple-700 to-indigo-600 text-white px-6 py-3 mt-5
-           rounded-xl font-medium hover:brightness-150 transition-all duration-300 shadow-lg shadow-blue-800/50"
+        className="bg-[#ff4a1c] text-white px-6 py-3 mt-5
+           rounded-xl font-medium hover:brightness-150 transition-all duration-300 shadow-lg shadow-[#ff3502]"
       >
         {loading ? 'Generating...' : 'Generate AI Image'}
       </button>
