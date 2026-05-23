@@ -471,7 +471,7 @@ const Home = () => {
               <div className="flex gap-2 flex-wrap mt-4">
                 <span className="text-[9px] font-mono text-neutral-400 bg-neutral-900 border border-neutral-800 py-0.5 px-2 rounded">"Cinematic Lighting"</span>
                 <span className="text-[9px] font-mono text-neutral-400 bg-neutral-900 border border-neutral-800 py-0.5 px-2 rounded">"Cyberpunk"</span>
-                <span className="text-[9px] font-mono text-neutral-400 bg-[#ff4a1c]/10 border border-[#ff4a1c]/25 text-[#ff4a1c] py-0.5 px-2 rounded animate-pulse">"Realistic"</span>
+                <span className="text-[9px] font-mono  bg-[#ff4a1c]/10 border border-[#ff4a1c]/25 text-[#ff4a1c] py-0.5 px-2 rounded animate-pulse">"Realistic"</span>
               </div>
             </div>
 
@@ -629,10 +629,10 @@ const Home = () => {
           </h3>
           <p className="text-xs text-neutral-500 font-mono">CODEBASE_VERSION_1.0.4</p>
           <div className="flex gap-4 mt-6">
-            <a href="https://github.com" className="p-2 border border-neutral-800 hover:bg-neutral-900 rounded-full text-neutral-400 hover:text-white transition">
+            <a href="https://github.com/Manav948/Imagino" className="p-2 border border-neutral-800 hover:bg-neutral-900 rounded-full text-neutral-400 hover:text-white transition">
               <Github className="w-4 h-4" />
             </a>
-            <a href="https://x.com" className="p-2 border border-neutral-800 hover:bg-neutral-900 rounded-full text-neutral-400 hover:text-white transition">
+            <a href="https://x.com/ManavValani" className="p-2 border border-neutral-800 hover:bg-neutral-900 rounded-full text-neutral-400 hover:text-white transition">
               <Twitter className="w-4 h-4" />
             </a>
           </div>
