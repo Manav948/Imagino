@@ -395,7 +395,7 @@ const Generate = () => {
     "steps": ${steps}
   }'`}
             </pre>
-          </div>z
+          </div>
 
         </div>
 
