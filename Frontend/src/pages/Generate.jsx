@@ -83,13 +83,14 @@ const Generate = () => {
       toast.error("Please enter a prompt.");
       return;
     }
-    if (!user?._id) {
+    const currentUserId = user?._id || user?.userId;
+    if (!currentUserId) {
       toast.error("Please log in to generate images.");
       return;
     }
     try {
       setLoading(true);
-      const res = await generateImage(promptText, user._id, {
+      const res = await generateImage(promptText, currentUserId, {
         cfgScale,
         steps,
         aspectRatio,
@@ -215,7 +216,7 @@ const Generate = () => {
           <div className="flex items-center gap-3 bg-[#111111] border border-neutral-800 px-4 py-2 rounded">
             <span className="w-2 h-2 rounded-full bg-green-500 animate-ping" />
             <span className="text-xs font-mono text-neutral-400">
-              CREDIT_BALANCE: <span className="text-[#ff4a1c] font-bold">{user.imageCount}</span>
+              CREDIT_BALANCE: <span className="text-[#ff4a1c] font-bold">{user.imageCount ?? 0}</span>
             </span>
           </div>
         </div>
@@ -386,7 +387,7 @@ const Generate = () => {
             </div>
             <pre className="text-[10px] font-mono text-neutral-300 overflow-x-auto whitespace-pre leading-relaxed p-2 rounded bg-black/40">
               {`curl -X POST "https://api.imagino.ai/v1/generate" \\
-  -H "Authorization: Bearer ${user?._id || 'YOUR_API_TOKEN'}" \\
+  -H "Authorization: Bearer ${user?._id || user?.userId || 'YOUR_API_TOKEN'}" \\
   -H "Content-Type: application/json" \\
   -d '{
     "prompt": "${prompt || 'cyberpunk neon city'}",

@@ -50,7 +50,7 @@ const Navbar = () => {
                   Welcome <span className="text-[#ff4a1c] font-semibold">{userName}</span>
                 </div>
                 <div>
-                  Credits <span className="text-green-500 font-semibold">{user.imageCount}</span>
+                  Credits <span className="text-green-500 font-semibold">{user.imageCount ?? 0}</span>
                 </div>
               </div>
               <button
@@ -107,7 +107,7 @@ const Navbar = () => {
                   <div className="text-xs text-neutral-400">
                     Welcome <span className="text-[#ff4a1c]">{userName}</span>
                     <span className="mx-2">•</span>
-                    Credits: <span className="text-green-500">{user.imageCount}</span>
+                    Credits: <span className="text-green-500">{user.imageCount ?? 0}</span>
                   </div>
                   <button
                     onClick={() => {

@@ -51,9 +51,11 @@ export const signUp = async (req, res) => {
             message: 'User registered successfully.',
             token: accessToken,
             user: {
+                _id: user._id,
                 userId: user._id,
                 username: user.username,
-                email: user.email
+                email: user.email,
+                imageCount: user.imageCount
             }
         });
     } catch (error) {
@@ -113,9 +115,11 @@ export const signIn = async (req, res) => {
             message: 'Signed in successfully.',
             token: accessToken,
             user: {
+                _id: user._id,
                 userId: user._id,
                 username: user.username,
-                email: user.email
+                email: user.email,
+                imageCount: user.imageCount
             }
         });
     } catch (error) {
