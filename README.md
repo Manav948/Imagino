@@ -1,6 +1,6 @@
-# 🔮 Imagino — AI Image Or Logo Generator & Profile Showcase
+# 🔮 Imagino — AI Image Generator
 
-Imagino is a modern, AI-powered web app that lets users generate unique Images Or Logo simply by entering a text prompt. It also features user authentication and a profile page to manage generated content. 
+Imagino is a modern, AI-powered web app that lets users generate unique Images simply by entering a text prompt. It also features user authentication and a profile page to manage generated content. 
 Designed with a clean UI and smooth experience, Imagino is the creative tool you didn’t know you needed.
 
 ---
