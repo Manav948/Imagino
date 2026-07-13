@@ -9,8 +9,7 @@ import Gallery from "../components/Gallery";
 import UserRating from "../components/UserRating";
 import aboutImage from "../images/image3.png";
 
-// Importing standard icons from lucide-react
-import { Sparkles, Cpu, Layers, Zap, ArrowRight, Github, Twitter, Lightbulb, Grid } from "lucide-react";
+import { Sparkles, Cpu, Layers, Zap, ArrowRight, Github, Twitter, Lightbulb, Grid, Linkedin } from "lucide-react";
 
 import image1 from "../images/image4.png";
 import image2 from "../images/image5.png";
@@ -33,9 +32,9 @@ const Home = () => {
   const [sliderImages] = useState([...initialSliderImages]);
   const [heroHovered, setHeroHovered] = useState(false);
 
-  // Smooth Scroll + GSAP setup
+  
   useEffect(() => {
-    // Lenis smooth scroll
+   
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -48,7 +47,7 @@ const Home = () => {
     }
     requestAnimationFrame(raf);
 
-    // GSAP animations
+    
     gsap.utils.toArray(".fade-up").forEach((el) => {
       gsap.fromTo(
         el,
@@ -77,7 +76,7 @@ const Home = () => {
   return (
     <div className="text-white bg-[#0b0b0b] min-h-screen relative overflow-hidden font-sans-modern pt-20">
       
-      {/* LEFT RULER BORDER */}
+   
       <div className="absolute left-4 md:left-12 top-0 bottom-0 w-[1px] bg-neutral-800/80 pointer-events-none hidden sm:block z-20">
         <div className="absolute top-28 flex flex-col gap-20 text-[9px] font-mono text-neutral-600 pl-2">
           <span>000</span>
@@ -100,7 +99,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* RIGHT RULER BORDER */}
+     
       <div className="absolute right-4 md:right-12 top-0 bottom-0 w-[1px] bg-neutral-800/80 pointer-events-none hidden sm:block z-20">
         <div className="absolute top-28 flex flex-col gap-20 text-[9px] font-mono text-neutral-600 pr-2 right-0 text-right">
           <span>000</span>
@@ -123,38 +122,37 @@ const Home = () => {
         </div>
       </div>
 
-      {/* HEADER BORDER LINE */}
+    
       <div className="w-full h-[1px] bg-neutral-800/80 relative">
         <div className="absolute left-4 md:left-12 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
         <div className="absolute right-4 md:right-12 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
       </div>
 
-      {/* HERO SECTION */}
+    
       <section className="relative px-6 md:px-24 py-16 md:py-28 max-w-7xl mx-auto z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         
-        {/* Left Side: Editorial Typography & Copy */}
+       
         <div className="lg:col-span-7 flex flex-col items-start text-left">
           
-          {/* Animated Tech Badge */}
+      
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded border border-neutral-800 bg-[#111111]/85 text-xs text-neutral-400 font-mono mb-6">
             <span className="w-2 h-2 rounded-full bg-[#ff4a1c] animate-ping" />
             IMAGINO.ENGINE_V1.4
           </div>
 
-          {/* Heading */}
+        
           <h1 className="text-4xl sm:text-6xl font-normal leading-tight text-white mb-6 font-editorial">
             Your prompts aren't linear.
             <br />
             <span className="text-neutral-400 italic">Your engine shouldn't be either.</span>
           </h1>
 
-          {/* Subheading Description */}
           <p className="text-neutral-400 text-sm sm:text-base max-w-xl leading-relaxed mb-8">
             A graph-based latency diffusion engine built with prompt suggestion nodes, 
             model checkpointing, and instant asset compile. Designed for production-level AI art creations.
           </p>
 
-          {/* Call To Actions */}
+        
           <div className="flex flex-col sm:flex-row gap-4 items-center w-full sm:w-auto">
             {user ? (
               <div className="flex flex-col items-start gap-3">
@@ -184,22 +182,21 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Right Side: Animated Isometric Node Graph Mockup */}
         <div className="lg:col-span-5 flex items-center justify-center w-full relative">
           <div className="relative w-full max-w-sm h-[420px] flex items-center justify-center perspective-1200">
             
-            {/* Ambient Background Radial Glow */}
+          
             <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full blur-[80px] transition-all duration-700 pointer-events-none ${
               heroHovered ? "w-80 h-80 bg-[#ff4a1c]/20" : "w-64 h-64 bg-[#ff4a1c]/10"
             }`} />
 
-            {/* 3D Isometric Viewport Container with hover handler */}
+           
             <div 
               className="relative w-72 h-72 animate-float-simple pointer-events-auto cursor-pointer preserve-3d"
               onMouseEnter={() => setHeroHovered(true)}
               onMouseLeave={() => setHeroHovered(false)}
             >
-              {/* Internal Rotator: handles 3D tilt and scale */}
+            
               <div 
                 className="absolute inset-0 preserve-3d transition-3d"
                 style={{
@@ -209,12 +206,12 @@ const Home = () => {
                 }}
               >
                 
-                {/* 3D CORNER PILLARS */}
+               
                 <div 
                   className="absolute inset-0 pointer-events-none preserve-3d transition-3d"
                   style={{ transform: `translateZ(${heroHovered ? -30 : 0}px)` }}
                 >
-                  {/* Top-Left Pillar */}
+                
                   <div 
                     className="absolute left-0 top-0 h-[1px] bg-gradient-to-r from-[#ff4a1c] via-[#ff4a1c]/40 to-transparent transition-3d"
                     style={{
@@ -223,7 +220,7 @@ const Home = () => {
                       transform: "rotateY(90deg)"
                     }}
                   />
-                  {/* Top-Right Pillar */}
+               
                   <div 
                     className="absolute right-0 top-0 h-[1px] bg-gradient-to-l from-[#ff4a1c] via-[#ff4a1c]/40 to-transparent transition-3d"
                     style={{
@@ -232,7 +229,7 @@ const Home = () => {
                       transform: "rotateY(-90deg)"
                     }}
                   />
-                  {/* Bottom-Left Pillar */}
+                
                   <div 
                     className="absolute left-0 bottom-0 h-[1px] bg-gradient-to-r from-[#ff4a1c] via-[#ff4a1c]/40 to-transparent transition-3d"
                     style={{
@@ -241,7 +238,7 @@ const Home = () => {
                       transform: "rotateY(90deg)"
                     }}
                   />
-                  {/* Bottom-Right Pillar */}
+                 
                   <div 
                     className="absolute right-0 bottom-0 h-[1px] bg-gradient-to-l from-[#ff4a1c] via-[#ff4a1c]/40 to-transparent transition-3d"
                     style={{
@@ -252,7 +249,6 @@ const Home = () => {
                   />
                 </div>
 
-                {/* 1. BOTTOM LAYER: Base Grid Matrix */}
                 <div 
                   className="absolute inset-0 bg-[#0d0d0d]/90 border border-neutral-800 rounded-xl shadow-[0_4px_30px_rgba(0,0,0,0.8)] flex flex-col justify-between p-4 transition-3d preserve-3d"
                   style={{ 
@@ -260,10 +256,10 @@ const Home = () => {
                     boxShadow: heroHovered ? "0 20px 40px rgba(0,0,0,0.9)" : "0 5px 15px rgba(0,0,0,0.7)"
                   }}
                 >
-                  {/* Tech Coordinates Grid Pattern */}
+               
                   <div className="absolute inset-2 rounded-lg opacity-40 bg-[linear-gradient(rgba(255,74,28,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,74,28,0.08)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
 
-                  {/* Corner Accent Brackets */}
+               
                   <div className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-[#ff4a1c]/60" />
                   <div className="absolute top-0 right-0 w-2.5 h-2.5 border-t border-r border-[#ff4a1c]/60" />
                   <div className="absolute bottom-0 left-0 w-2.5 h-2.5 border-b border-l border-[#ff4a1c]/60" />
@@ -295,7 +291,7 @@ const Home = () => {
                   </div>
                 </div>
 
-                {/* 2. MIDDLE LAYER: Latent Flow Logic */}
+              
                 <div 
                   className="absolute inset-0 bg-[#121212]/95 border border-neutral-800/80 rounded-xl p-4 flex flex-col justify-between shadow-[0_10px_35px_rgba(0,0,0,0.8)] transition-3d preserve-3d"
                   style={{ 
@@ -303,13 +299,13 @@ const Home = () => {
                     opacity: heroHovered ? 0.95 : 0.85
                   }}
                 >
-                  {/* Neural Grid/Path SVG */}
+              
                   <svg className="absolute inset-0 w-full h-full p-4 overflow-visible pointer-events-none" viewBox="0 0 100 100" fill="none">
-                    {/* Active Processor Node */}
+                   
                     <rect x="42" y="42" width="16" height="16" rx="2" fill="#0d0d0d" stroke={heroHovered ? "#ff4a1c" : "#444"} strokeWidth="1" className="transition-colors duration-500" />
                     <circle cx="50" cy="50" r="3" fill="#ff4a1c" className={heroHovered ? "animate-ping" : ""} />
                     
-                    {/* Paths */}
+                  
                     <path d="M 12,20 L 32,20 L 42,44" stroke={heroHovered ? "#ff4a1c" : "#333"} strokeWidth="0.75" strokeDasharray="3 3" className="transition-colors duration-500" />
                     <path d="M 12,50 L 42,50" stroke={heroHovered ? "#ff4a1c" : "#333"} strokeWidth="0.75" strokeDasharray="3 3" className="transition-colors duration-500" />
                     <path d="M 12,80 L 32,80 L 42,56" stroke={heroHovered ? "#ff4a1c" : "#333"} strokeWidth="0.75" strokeDasharray="3 3" className="transition-colors duration-500" />
@@ -336,7 +332,7 @@ const Home = () => {
                   </div>
                 </div>
 
-                {/* 3. TOP LAYER: Render Canvas Output */}
+              
                 <div 
                   className="absolute inset-0 bg-[#080808] border-2 border-neutral-700/80 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col justify-between transition-3d preserve-3d"
                   style={{ 
@@ -345,10 +341,10 @@ const Home = () => {
                     boxShadow: heroHovered ? "0 10px 40px rgba(255, 74, 28, 0.25)" : "0 5px 20px rgba(0,0,0,0.8)"
                   }}
                 >
-                  {/* Canvas Grid Lines */}
+                
                   <div className="absolute inset-0 border border-neutral-900 pointer-events-none z-10" />
 
-                  {/* Core Content: Graphic image */}
+                 
                   <div className="relative w-full h-full overflow-hidden flex items-center justify-center bg-neutral-950">
                     <img 
                       src={image1} 
@@ -358,20 +354,20 @@ const Home = () => {
                       }`} 
                     />
                     
-                    {/* Dark Vignette */}
+                    
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/40 pointer-events-none" />
 
-                    {/* Scanning Laser Line */}
+                   
                     <div className="absolute inset-x-0 h-[2px] bg-[#ff4a1c] shadow-[0_0_12px_#ff4a1c] animate-scanline pointer-events-none z-20 opacity-80" />
 
-                    {/* Technical Crosshair Overlays */}
+                   
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-40 z-10">
                       <div className="w-6 h-[1px] bg-white/60 absolute" />
                       <div className="h-6 w-[1px] bg-white/60 absolute" />
                       <div className="w-10 h-10 border border-white/30 rounded-full absolute" />
                     </div>
 
-                    {/* Technical HUD Overlay on Top Layer */}
+                    
                     <div className="absolute top-2 left-2 flex gap-1 items-center z-10">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#ff4a1c] animate-ping" />
                       <span className="text-[7px] text-white font-mono bg-neutral-900/90 px-1 py-0.5 border border-neutral-800 rounded">RENDER_OK</span>
@@ -384,7 +380,7 @@ const Home = () => {
                   </div>
                 </div>
 
-                {/* 4. FLOATING SIDE TAGS */}
+             
                 <div 
                   className="absolute -left-10 top-12 bg-neutral-900/95 border border-neutral-800 py-1 px-2.5 rounded shadow-xl text-[8px] font-mono text-green-400 z-50 transition-3d whitespace-nowrap"
                   style={{ transform: `translateZ(${heroHovered ? 120 : 50}px)` }}
@@ -406,16 +402,15 @@ const Home = () => {
 
       </section>
 
-      {/* SECTION DIVIDER */}
+     
       <div className="relative w-full h-[1px] bg-neutral-800/80 my-12">
         <div className="absolute left-4 md:left-12 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
         <div className="absolute right-4 md:right-12 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
       </div>
 
-      {/* CORE ENGINE BENTO FEATURES GRID */}
       <section className="relative max-w-7xl mx-auto px-6 md:px-24 py-16 z-10 fade-up">
         
-        {/* Section Header */}
+    
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-neutral-800 bg-[#111111] text-xs text-neutral-400 font-mono mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-[#ff4a1c]" />
@@ -426,10 +421,10 @@ const Home = () => {
           </h2>
         </div>
 
-        {/* Bento Grid layout */}
+    
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 max-w-6xl mx-auto">
           
-          {/* Card 1: Left Column, Tall (Spans 4 columns in grid) */}
+        
           <div className="md:col-span-4 bg-[#111111]/70 border border-neutral-800 hover:border-neutral-700 transition-all rounded-xl p-6 flex flex-col justify-between min-h-[360px] group shadow-lg">
             <div>
               <div className="w-10 h-10 rounded bg-[#ff4a1c]/10 border border-[#ff4a1c]/20 flex items-center justify-center text-[#ff4a1c] mb-6">
@@ -441,7 +436,7 @@ const Home = () => {
               </p>
             </div>
             
-            {/* Visual element */}
+          
             <div className="relative w-full h-32 mt-6 bg-[#0c0c0c] border border-neutral-900 rounded-lg flex items-center justify-center overflow-hidden">
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,74,28,0.08),transparent)]" />
               <div className="relative flex items-center gap-3">
@@ -451,10 +446,10 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Column 2 (Middle): Spans 4 columns and stacks two cards */}
+         
           <div className="md:col-span-4 flex flex-col gap-6">
             
-            {/* Card 2: Suggestion Engine (Top Stack) */}
+           
             <div className="bg-[#111111]/70 border border-neutral-800 hover:border-neutral-700 transition-all rounded-xl p-6 flex flex-col justify-between min-h-[168px] group shadow-lg">
               <div>
                 <div className="flex justify-between items-start">
@@ -475,7 +470,7 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Card 3: Model Alignment (Bottom Stack) */}
+           
             <div className="bg-[#111111]/70 border border-neutral-800 hover:border-neutral-700 transition-all rounded-xl p-6 flex flex-col justify-between min-h-[168px] group shadow-lg">
               <div>
                 <div className="flex justify-between items-start">
@@ -496,7 +491,7 @@ const Home = () => {
 
           </div>
 
-          {/* Card 4: Right Column, Tall (Spans 4 columns in grid) */}
+          
           <div className="md:col-span-4 bg-[#111111]/70 border border-neutral-800 hover:border-neutral-700 transition-all rounded-xl p-6 flex flex-col justify-between min-h-[360px] group shadow-lg">
             <div>
               <div className="w-10 h-10 rounded bg-[#ff4a1c]/10 border border-[#ff4a1c]/20 flex items-center justify-center text-[#ff4a1c] mb-6">
@@ -508,7 +503,7 @@ const Home = () => {
               </p>
             </div>
             
-            {/* Visual element */}
+       
             <div className="relative w-full h-32 mt-6 rounded-lg overflow-hidden border border-neutral-900">
               <img 
                 src={image2} 
@@ -527,13 +522,13 @@ const Home = () => {
 
       </section>
 
-      {/* SECTION DIVIDER */}
+      
       <div className="relative w-full h-[1px] bg-neutral-800/80 my-12">
         <div className="absolute left-4 md:left-12 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
         <div className="absolute right-4 md:right-12 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
       </div>
 
-      {/* TRENDING AI SLIDER SHOWCASE */}
+      
       <section className="py-16 fade-up">
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-neutral-800 bg-[#111111] text-xs text-neutral-400 font-mono mb-4">
@@ -558,24 +553,24 @@ const Home = () => {
         </div>
       </section>
 
-      {/* SECTION DIVIDER */}
+     
       <div className="relative w-full h-[1px] bg-neutral-800/80 my-12">
         <div className="absolute left-4 md:left-12 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
         <div className="absolute right-4 md:right-12 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
       </div>
 
-      {/* GALLERY SHOWCASE */}
+    
       <section className="fade-up">
         <Gallery />
       </section>
 
-      {/* SECTION DIVIDER */}
+     
       <div className="relative w-full h-[1px] bg-neutral-800/80 my-12">
         <div className="absolute left-4 md:left-12 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
         <div className="absolute right-4 md:right-12 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
       </div>
 
-      {/* ABOUT PROMPTIFY SECTION */}
+  
       <section className="px-6 md:px-24 py-12 max-w-7xl mx-auto z-10 fade-up">
         <div className="relative rounded-2xl bg-[#111111]/60 border border-neutral-800 p-8 md:p-12 flex flex-col md:flex-row gap-10 items-center">
           <div className="relative z-10 w-full md:w-1/2">
@@ -599,27 +594,26 @@ const Home = () => {
         </div>
       </section>
 
-      {/* SECTION DIVIDER */}
+    
       <div className="relative w-full h-[1px] bg-neutral-800/80 my-12">
         <div className="absolute left-4 md:left-12 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
         <div className="absolute right-4 md:right-12 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
       </div>
 
-      {/* REVIEWS SECTION */}
+    
       <section className="fade-up">
         <UserRating />
       </section>
 
-      {/* FOOTER SECTION (Blueprint Style) */}
+   
       <footer className="relative max-w-7xl mx-auto px-6 md:px-24 pt-20 pb-12 z-10">
         
-        {/* Footer Top Border line */}
+    
         <div className="w-full h-[1px] bg-neutral-800/80 relative mb-16">
           <div className="absolute left-0 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
           <div className="absolute right-0 -top-[3px] w-1.5 h-1.5 bg-[#ff4a1c]" />
         </div>
 
-        {/* Brand Banner */}
         <div className="flex flex-col items-center mb-16 text-center">
           <div className="w-12 h-12 bg-[#ff4a1c] rounded flex items-center justify-center font-black text-black text-2xl mb-4">
             I
@@ -635,10 +629,12 @@ const Home = () => {
             <a href="https://x.com/ManavValani" className="p-2 border border-neutral-800 hover:bg-neutral-900 rounded-full text-neutral-400 hover:text-white transition">
               <Twitter className="w-4 h-4" />
             </a>
+            <a href="https://www.linkedin.com/in/manavvalani/" className="p-2 border border-neutral-800 hover:bg-neutral-900 rounded-full text-neutral-400 hover:text-white transition">
+              <Linkedin className="w-4 h-4" />
+            </a>
           </div>
         </div>
 
-        {/* Footer Links Grid with Vertical Borders */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-neutral-800/80 pt-12 text-left">
           
           <div className="space-y-4">
