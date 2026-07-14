@@ -34,7 +34,7 @@ const SignIn = () => {
   return (
     <div className="min-h-screen bg-[#0b0b0b] text-white pt-24 pb-20 relative overflow-hidden font-sans-modern flex items-center justify-center px-4">
       
-      {/* Border Rulers */}
+    
       <div className="absolute left-4 md:left-12 top-0 bottom-0 w-[1px] bg-neutral-800/80 pointer-events-none hidden sm:block z-20">
         <div className="absolute top-28 flex flex-col gap-20 text-[9px] font-mono text-neutral-600 pl-2">
           <span>000</span><span>100</span><span>200</span><span>300</span><span>400</span><span>500</span>
@@ -49,14 +49,14 @@ const SignIn = () => {
       <div className="w-full max-w-md z-10">
         <div className="relative border border-neutral-800 bg-[#111111]/70 p-8 md:p-10 shadow-2xl backdrop-blur-md">
           
-          {/* Accent Corner Brackets */}
+         
           <div className="absolute -top-[1px] -left-[1px] w-3 h-3 border-t border-l border-[#ff4a1c]" />
           <div className="absolute -top-[1px] -right-[1px] w-3 h-3 border-t border-r border-[#ff4a1c]" />
           <div className="absolute -bottom-[1px] -left-[1px] w-3 h-3 border-b border-l border-[#ff4a1c]" />
           <div className="absolute -bottom-[1px] -right-[1px] w-3 h-3 border-b border-r border-[#ff4a1c]" />
 
           <form onSubmit={handleSubmit}>
-            {/* Header Telemetry */}
+           
             <div className="flex justify-between items-center text-[8px] font-mono text-neutral-500 border-b border-neutral-800/80 pb-3 mb-6">
               <span className="flex items-center gap-1">
                 <Terminal className="w-3 h-3 text-[#ff4a1c]" /> GATEWAY_SECURE_AUTH_V1.0
@@ -73,7 +73,7 @@ const SignIn = () => {
               </p>
             </div>
 
-            {/* Email Field */}
+          
             <div className="mb-4 space-y-1.5">
               <label className="block text-[10px] font-mono text-neutral-400">
                 [01_EMAIL_KEY_IDENTIFIER]
@@ -91,7 +91,7 @@ const SignIn = () => {
               </div>
             </div>
 
-            {/* Password Field */}
+         
             <div className="mb-6 space-y-1.5">
               <label className="block text-[10px] font-mono text-neutral-400">
                 [02_SECURE_PASSPHRASE]
@@ -109,7 +109,7 @@ const SignIn = () => {
               </div>
             </div>
 
-            {/* Submit Button */}
+            
             <button
               type="submit"
               disabled={loading}
@@ -122,7 +122,7 @@ const SignIn = () => {
               {loading ? 'AUTHENTICATING...' : 'EXECUTE_SIGN_IN'}
             </button>
 
-            {/* Footer Navigation */}
+       
             <div className="border-t border-neutral-900 mt-6 pt-4 flex justify-between items-center text-[10px] font-mono">
               <span className="text-neutral-500">NO KEY REGISTERED?</span>
               <Link to="/signup" className="text-[#ff4a1c] hover:underline uppercase tracking-wider font-bold">

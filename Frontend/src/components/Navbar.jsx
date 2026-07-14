@@ -16,10 +16,10 @@ const Navbar = () => {
       transition={{ duration: 0.6, ease: 'easeOut' }}
       className="fixed top-4 left-0 w-full z-50 px-4 md:px-8"
     >
-      {/* Floating Capsule */}
+      
       <div className="max-w-6xl mx-auto bg-[#0d0d0d]/90 backdrop-blur-md border border-neutral-800 rounded-full py-2.5 px-6 flex justify-between items-center shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
         
-        {/* Left Side: Logo */}
+      
         <Link
           to="/"
           className="flex items-center gap-2 group"
@@ -32,7 +32,7 @@ const Navbar = () => {
           </span>
         </Link>
 
-        {/* Center: Desktop Navigation */}
+      
         <nav className="hidden md:flex items-center gap-8">
           <Link className="text-sm font-medium text-neutral-400 hover:text-white transition-colors" to="/">Home</Link>
           <Link className="text-sm font-medium text-neutral-400 hover:text-white transition-colors" to="/generate">Playground</Link>
@@ -41,7 +41,6 @@ const Navbar = () => {
           )}
         </nav>
 
-        {/* Right Side: Desktop Actions */}
         <div className="hidden md:flex items-center gap-4">
           {user ? (
             <>
@@ -76,7 +75,7 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* Mobile menu toggle */}
+        
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           className="md:hidden text-white focus:outline-none text-xl"
@@ -85,7 +84,7 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile Drawer */}
+    
       <AnimatePresence>
         {menuOpen && (
           <motion.div

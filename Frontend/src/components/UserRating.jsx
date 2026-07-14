@@ -36,10 +36,10 @@ const reviews = [
 const UserReviews = () => {
   return (
     <section className="mt-32 px-6 md:px-24 relative">
-      {/* Background coordinate grid helper lines */}
+    
       <div className="absolute left-6 md:left-24 right-6 md:right-24 top-0 h-[1px] bg-neutral-800/80" />
       
-      {/* Heading */}
+   
       <div className="text-center mb-16 pt-12">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded border border-neutral-800 bg-[#111111] text-[9px] font-mono text-neutral-500 mb-4">
           <span className="w-1.5 h-1.5 rounded-full bg-[#ff4a1c]" />
@@ -50,7 +50,7 @@ const UserReviews = () => {
         </h2>
       </div>
 
-      {/* Review Cards Grid */}
+    
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
         {reviews.map((review, index) => (
           <motion.div
@@ -59,14 +59,14 @@ const UserReviews = () => {
             transition={{ duration: 0.2 }}
             className="relative rounded bg-[#111111]/40 border border-neutral-800 p-6 flex flex-col justify-between hover:border-[#ff4a1c]/60 hover:shadow-[0_0_15px_rgba(255,74,28,0.05)] transition-all duration-300"
           >
-            {/* Corner Bracket decorations */}
+          
             <div className="absolute top-0 right-0 p-2 text-[8px] font-mono text-neutral-600">
               VERIFIED_OP_0{index + 1}
             </div>
             
             <div className="absolute -top-[3px] left-6 w-1.5 h-1.5 bg-[#ff4a1c]" />
 
-            {/* Message block */}
+            
             <div className="mb-6 relative">
               <MessageSquareCode className="w-4 h-4 text-neutral-600 mb-3" />
               <p className="font-mono text-[11px] text-neutral-400 leading-relaxed italic">
@@ -74,7 +74,6 @@ const UserReviews = () => {
               </p>
             </div>
 
-            {/* User Details */}
             <div className="flex items-center gap-3 border-t border-neutral-900 pt-4 mt-auto">
               <div className="relative flex-shrink-0">
                 <img
