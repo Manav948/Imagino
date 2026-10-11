@@ -24,7 +24,7 @@ export const setRefreshTokenCookie = (res, token) => {
     const expire = 7 * 24 * 60 * 60 * 1000;
     res.cookie('refreshToken', token, {
         httpOnly: true,
-        sameSite: 'strict',
+        sameSite: 'none',
         secure: process.env.NODE_ENV === 'production',
         maxAge: expire
     });
