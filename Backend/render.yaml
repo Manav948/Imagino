@@ -14,6 +14,8 @@ services:
         sync: false
       - key: JWT_SECRET
         sync: false
+      - key: PASSWORD_PEPPER
+        sync: false
       - key: CLOUDINARY_CLOUD_NAME
         sync: false
       - key: CLOUDINARY_API_KEY

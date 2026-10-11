@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
 import Session from '../models/sessionModel.js';
-import { generateAccessToken, generateRefreshToken, setRefreshTokenCookie } from '../config/token.js';
+import { clearRefreshTokenCookie, generateAccessToken, generateRefreshToken, setRefreshTokenCookie } from '../config/token.js';
 import { comparePasswordWithPaper, hashedPassword, hashToken } from '../utils/authUtils.js';
 
 export const signUp = async (req, res) => {
@@ -70,7 +70,7 @@ export const signIn = async (req, res) => {
         const user = await User.findOne({ email: email.toLowerCase() });
 
         if (!user) {
-            return res.status(400).json({ message: 'Email does not exist' });
+            return res.status(401).json({ message: 'Invalid email or password' });
         }
 
         if (user.isLocked()) {
@@ -88,7 +88,7 @@ export const signIn = async (req, res) => {
                 user.lockuntil = new Date(Date.now() + 15 * 60 * 1000);
             }
             await user.save();
-            return res.status(401).json({ message: 'Invalid password' });
+            return res.status(401).json({ message: 'Invalid email or password' });
         }
 
         user.loginAttempts = 0;
@@ -138,11 +138,7 @@ export const logout = async (req, res) => {
         const tokenHash = hashToken(refreshToken);
         await Session.deleteOne({ tokenHash });
 
-        res.clearCookie('refreshToken', {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict'
-        });
+        clearRefreshTokenCookie(res);
         return res.status(200).json({ message: 'Logout successfully' });
     } catch (error) {
         console.log('Error in logout function : ', error);
@@ -173,14 +169,10 @@ export const refreshSession = async (req, res) => {
         if (!session || !session.isValid || new Date() > session.expireAt) {
             if (session) {
                 await Session.deleteOne({ _id: session._id });
-            } else {
-                await Session.deleteMany({ userId: decoded.userId });
             }
-            res.clearCookie('refreshToken', {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: 'strict'
-            });
+            // A missing session can be caused by an older tab refreshing a
+            // rotated token. Never invalidate the user's other devices here.
+            clearRefreshTokenCookie(res);
             return res.status(401).json({
                 status: 'fail',
                 message: 'Session is no longer valid. Please log in again.'

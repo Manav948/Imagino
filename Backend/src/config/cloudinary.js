@@ -1,5 +1,5 @@
 import { v2 as cloudinary } from 'cloudinary';
-import fs from 'fs'
+import fs from 'node:fs/promises'
 
 const cloudinaryConfig = async (filepath) => {
     cloudinary.config({
@@ -9,11 +9,12 @@ const cloudinaryConfig = async (filepath) => {
     });
     try {
         const uploadResult = await cloudinary.uploader.upload(filepath);
-        fs.unlinkSync(filepath)
         return uploadResult.secure_url
     } catch (error) {
         console.log("Error uploading to cloudinary : ", error);
         throw new Error('Failed to upload image');
+    } finally {
+        await fs.unlink(filepath).catch(() => {});
     }
 }
 export default cloudinaryConfig

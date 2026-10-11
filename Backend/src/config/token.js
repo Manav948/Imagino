@@ -24,8 +24,19 @@ export const setRefreshTokenCookie = (res, token) => {
     const expire = 7 * 24 * 60 * 60 * 1000;
     res.cookie('refreshToken', token, {
         httpOnly: true,
-        sameSite: 'none',
+        // Cross-site frontend/API deployments require None; it must always be Secure.
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
         secure: process.env.NODE_ENV === 'production',
+        path: '/api/auth',
         maxAge: expire
+    });
+};
+
+export const clearRefreshTokenCookie = (res) => {
+    res.clearCookie('refreshToken', {
+        httpOnly: true,
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        path: '/api/auth',
     });
 };

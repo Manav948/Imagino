@@ -28,12 +28,14 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+    const isPublicAuthRequest = ['/signin', '/signup', '/logout', '/refresh']
+      .some((path) => originalRequest?.url?.includes(path));
     
     // Check if error status is 401 (Unauthorized) and the request was not a retry or a refresh request itself
     if (
       error.response?.status === 401 && 
       !originalRequest._retry && 
-      !originalRequest.url?.includes('/refresh')
+      !isPublicAuthRequest
     ) {
       originalRequest._retry = true;
       try {
@@ -41,7 +43,10 @@ api.interceptors.response.use(
         const res = await axios.post(
           `${BASE_URL}/api/auth/refresh`,
           {},
-          { withCredentials: true }
+          {
+            withCredentials: true,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+          }
         );
         
         if (res.data && res.data.token) {

@@ -2,12 +2,27 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../context/AuthContext'
+import api from '../lib/axios.js'
 
 const Navbar = () => {
   const { user, logout } = useAuth()
   const [menuOpen, setMenuOpen] = useState(false)
 
   const userName = user?.name || user?.email?.split('@')[0] || user?.username || 'User'
+
+  const handleLogout = async () => {
+    try {
+      await api.post('/api/auth/logout', {}, {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+      });
+    } catch (error) {
+      // Local logout must still complete if the session has already expired.
+      console.error('Server logout failed:', error);
+    } finally {
+      logout();
+      setMenuOpen(false);
+    }
+  };
 
   return (
     <motion.header
@@ -53,7 +68,7 @@ const Navbar = () => {
                 </div>
               </div>
               <button
-                onClick={logout}
+                onClick={handleLogout}
                 className="px-4 py-1.5 text-xs font-semibold bg-neutral-900 border border-neutral-800 hover:bg-neutral-800 text-white rounded-full transition-colors active:scale-95"
               >
                 Logout
@@ -109,10 +124,7 @@ const Navbar = () => {
                     Credits: <span className="text-green-500">{user.imageCount ?? 0}</span>
                   </div>
                   <button
-                    onClick={() => {
-                      logout()
-                      setMenuOpen(false)
-                    }}
+                    onClick={handleLogout}
                     className="px-3 py-1.5 text-xs font-semibold bg-neutral-900 border border-neutral-800 hover:bg-neutral-800 text-white rounded-full transition"
                   >
                     Logout

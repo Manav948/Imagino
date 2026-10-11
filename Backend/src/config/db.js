@@ -6,7 +6,7 @@ const connectDB = async () => {
         console.log("dataBase connected successfully ");
     } catch (error) {
         console.log("Error in dataBase connection : ", error);
-        preocess.exit(1);
+        process.exit(1);
     }
 }
 export default connectDB

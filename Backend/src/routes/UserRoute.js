@@ -4,12 +4,13 @@ import {uploaderController} from "../controller/controller.js"
 import { isAuth } from '../middleware/isAuth.js';
 import { generateImage } from '../controller/imageGenerate.js';
 import upload from '../middleware/multer.js'
+import { generateImageSchema, validateRequest } from '../middleware/validation.js';
 const router = express.Router();
 
 router.get('/profile', isAuth, getUserProfile)
 router.get('/can-genetrate', isAuth, canGenerateImage)
 router.post('/store-image', isAuth, storeImage)
 router.get('/images', isAuth, getImage)
-router.post('/generate-image', isAuth, generateImage)
+router.post('/generate-image', isAuth, validateRequest(generateImageSchema), generateImage)
 router.post('/history', isAuth , upload.single('image'),uploaderController)
 export default router;

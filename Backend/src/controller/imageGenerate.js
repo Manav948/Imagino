@@ -3,18 +3,25 @@ import FormData from 'form-data';
 import axios from 'axios';
 
 export const generateImage = async (req, res) => {
+    let creditReserved = false;
     try {
-        const { userId, prompt, cfgScale, steps, aspectRatio, sampler } = req.body;
-        if (!userId || !prompt) {
-            return res.status(400).json({ message: "Missing userId or prompt" });
-        }
-        const user = await User.findById(userId);
+        const { prompt, cfgScale, steps, sampler } = req.body;
+
+        // Never use a user ID supplied by the browser. Reserve a credit
+        // atomically so parallel requests cannot bypass the generation limit.
+        const user = await User.findOneAndUpdate(
+            {
+                _id: req.user.id,
+                $expr: { $lt: ['$imageCount', '$maxImageLimit'] },
+            },
+            { $inc: { imageCount: 1 } },
+            { new: true }
+        );
+
         if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
-        if (user.imageCount >= user.maxImageLimit) {
             return res.status(403).json({ message: "You have reached your image generation limit." });
         }
+        creditReserved = true;
 
         // Build enhanced prompt to steer stability diffusion based on user's custom settings
         let enhancedPrompt = prompt;
@@ -52,8 +59,6 @@ export const generateImage = async (req, res) => {
             }
         }
 
-        console.log(`[GEN_API] User: ${user.username} | Base Prompt: "${prompt}" | Enhanced Prompt: "${enhancedPrompt}" | CFG: ${cfgScale} | Steps: ${steps} | Sampler: ${sampler} | AspectRatio: ${aspectRatio}`);
-
         // Prepare request to ClipDrop API
         const formData = new FormData();
         formData.append('prompt', enhancedPrompt);
@@ -73,20 +78,17 @@ export const generateImage = async (req, res) => {
         const base64Image = Buffer.from(clipdropResponse.data, 'binary').toString('base64');
         const resultImage = `data:image/png;base64,${base64Image}`;
 
-        // Update user's image count
-        const updatedUser = await User.findByIdAndUpdate(
-            user._id,
-            { $inc: { imageCount: 1 } },
-            { new: true }
-        );
-
         return res.status(200).json({
             message: "Image generated successfully",
-            imageCount: updatedUser.imageCount,
+            imageCount: user.imageCount,
             resultImage
         });
 
     } catch (error) {
+        // Return a reserved credit when the image provider fails.
+        if (creditReserved) {
+            await User.findByIdAndUpdate(req.user.id, { $inc: { imageCount: -1 } });
+        }
         console.error("Error in generateImage:", error?.response?.data || error.message || error);
         return res.status(500).json({ message: "Image generation failed, please try again later." });
     }

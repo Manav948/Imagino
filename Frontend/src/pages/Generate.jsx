@@ -83,14 +83,9 @@ const Generate = () => {
       toast.error("Please enter a prompt.");
       return;
     }
-    const currentUserId = user?._id || user?.userId;
-    if (!currentUserId) {
-      toast.error("Please log in to generate images.");
-      return;
-    }
     try {
       setLoading(true);
-      const res = await generateImage(promptText, currentUserId, {
+      const res = await generateImage(promptText, {
         cfgScale,
         steps,
         aspectRatio,
