@@ -4,8 +4,8 @@ import { AnimatePresence, motion } from "framer-motion"
 export default function HoverExpand({
   images,
   initialSelectedIndex = 0,
-  thumbnailHeight = 200,
-  modalImageSize = 400,
+  _thumbnailHeight = 200,
+  _modalImageSize = 400,
   maxThumbnails = 11
 }) {
   const [selectedIndex, setSelectedIndex] = useState(initialSelectedIndex)

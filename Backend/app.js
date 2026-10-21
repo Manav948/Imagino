@@ -45,12 +45,16 @@ app.use((error, req, res, next) => {
     return res.status(500).json({ message: 'Internal server error' });
 });
 
-// Connect DB and start server
-connectDb().then(() => {
-    app.listen(PORT, '0.0.0.0', () => {
-        console.log(`Server running on port ${PORT}`);
+// Connect DB and start server (unless in test mode)
+if (process.env.NODE_ENV !== 'test') {
+    connectDb().then(() => {
+        app.listen(PORT, '0.0.0.0', () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+    }).catch((error) => {
+        console.error('Failed to connect to database:', error);
+        process.exit(1);
     });
-}).catch((error) => {
-    console.error('Failed to connect to database:', error);
-    process.exit(1);
-});
+}
+
+export default app;
