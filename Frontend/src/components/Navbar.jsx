@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../context/AuthContext'
 import api from '../lib/axios.js'
@@ -7,6 +7,7 @@ import api from '../lib/axios.js'
 const Navbar = () => {
   const { user, logout } = useAuth()
   const [menuOpen, setMenuOpen] = useState(false)
+  const location = useLocation()
 
   const userName = user?.name || user?.email?.split('@')[0] || user?.username || 'User'
 
@@ -23,6 +24,8 @@ const Navbar = () => {
       setMenuOpen(false);
     }
   };
+
+  const isActive = (path) => location.pathname === path
 
   return (
     <motion.header
@@ -49,10 +52,33 @@ const Navbar = () => {
 
       
         <nav className="hidden md:flex items-center gap-8">
-          <Link className="text-sm font-medium text-neutral-400 hover:text-white transition-colors" to="/">Home</Link>
-          <Link className="text-sm font-medium text-neutral-400 hover:text-white transition-colors" to="/generate">Playground</Link>
+          <Link
+            className={`text-sm font-medium transition-colors ${isActive('/') ? 'text-[#ff4a1c] font-semibold' : 'text-neutral-400 hover:text-white'}`}
+            to="/"
+          >
+            Home
+          </Link>
+          <Link
+            className={`text-sm font-medium transition-colors ${isActive('/generate') ? 'text-[#ff4a1c] font-semibold' : 'text-neutral-400 hover:text-white'}`}
+            to="/generate"
+          >
+            Playground
+          </Link>
           {user && (
-            <Link className="text-sm font-medium text-neutral-400 hover:text-white transition-colors" to="/profile">Profile</Link>
+            <Link
+              className={`text-sm font-medium transition-colors ${isActive('/history') ? 'text-[#ff4a1c] font-semibold' : 'text-neutral-400 hover:text-white'}`}
+              to="/history"
+            >
+              History
+            </Link>
+          )}
+          {user && (
+            <Link
+              className={`text-sm font-medium transition-colors ${isActive('/profile') ? 'text-[#ff4a1c] font-semibold' : 'text-neutral-400 hover:text-white'}`}
+              to="/profile"
+            >
+              Profile
+            </Link>
           )}
         </nav>
 
@@ -109,10 +135,13 @@ const Navbar = () => {
             transition={{ duration: 0.2 }}
             className="md:hidden mt-2 max-w-6xl mx-auto bg-[#0d0d0d] border border-neutral-800 rounded-2xl p-5 flex flex-col gap-4 shadow-2xl"
           >
-            <Link onClick={() => setMenuOpen(false)} className="text-base text-neutral-300 hover:text-white py-1" to="/">Home</Link>
-            <Link onClick={() => setMenuOpen(false)} className="text-base text-neutral-300 hover:text-white py-1" to="/generate">Playground</Link>
+            <Link onClick={() => setMenuOpen(false)} className={`text-base py-1 transition-colors ${isActive('/') ? 'text-[#ff4a1c] font-semibold' : 'text-neutral-300 hover:text-white'}`} to="/">Home</Link>
+            <Link onClick={() => setMenuOpen(false)} className={`text-base py-1 transition-colors ${isActive('/generate') ? 'text-[#ff4a1c] font-semibold' : 'text-neutral-300 hover:text-white'}`} to="/generate">Playground</Link>
             {user && (
-              <Link onClick={() => setMenuOpen(false)} className="text-base text-neutral-300 hover:text-white py-1" to="/profile">Profile</Link>
+              <Link onClick={() => setMenuOpen(false)} className={`text-base py-1 transition-colors ${isActive('/history') ? 'text-[#ff4a1c] font-semibold' : 'text-neutral-300 hover:text-white'}`} to="/history">History</Link>
+            )}
+            {user && (
+              <Link onClick={() => setMenuOpen(false)} className={`text-base py-1 transition-colors ${isActive('/profile') ? 'text-[#ff4a1c] font-semibold' : 'text-neutral-300 hover:text-white'}`} to="/profile">Profile</Link>
             )}
 
             <div className="pt-3 border-t border-neutral-800 flex items-center justify-between">
