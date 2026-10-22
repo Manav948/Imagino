@@ -1,13 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Download, RefreshCw, CheckCircle2, AlertTriangle, Eye } from 'lucide-react';
 
 const CurrentSessionCard = ({ item, onView, onDownload, onRetrySave }) => {
+  const [detectedAspect, setDetectedAspect] = useState(() => {
+    if (item.aspectRatio === '16:9') return '16/9';
+    if (item.aspectRatio === '9:16') return '9/16';
+    if (item.aspectRatio === '1:1') return '1/1';
+    return null;
+  });
+
+  const handleImageLoad = (e) => {
+    const { naturalWidth, naturalHeight } = e.target;
+    if (naturalWidth && naturalHeight) {
+      const ratio = naturalWidth / naturalHeight;
+      if (ratio >= 1.35) {
+        setDetectedAspect('16/9');
+      } else if (ratio <= 0.75) {
+        setDetectedAspect('9/16');
+      } else {
+        setDetectedAspect('1/1');
+      }
+    }
+  };
+
+  const activeAspect =
+    detectedAspect ||
+    (item.aspectRatio === '16:9'
+      ? '16/9'
+      : item.aspectRatio === '9:16'
+      ? '9/16'
+      : '1/1');
+
   const getAspectClass = (ar) => {
     switch (ar) {
+      case '16/9':
       case '16:9':
         return 'aspect-video';
+      case '9/16':
       case '9:16':
         return 'aspect-[9/16]';
+      case '1/1':
       case '1:1':
       default:
         return 'aspect-square';
@@ -19,9 +51,9 @@ const CurrentSessionCard = ({ item, onView, onDownload, onRetrySave }) => {
   const isSaved = item.saveStatus === 'saved';
 
   return (
-    <div className="relative rounded-xl bg-[#141414] border border-neutral-800 hover:border-neutral-700 transition overflow-hidden flex flex-col justify-between shadow-xl">
+    <div className="relative rounded-xl bg-[#141414] border border-neutral-800 hover:border-neutral-700 transition overflow-hidden flex flex-col shadow-xl w-full h-auto">
       {/* Top Status Banner */}
-      <div className="px-3 py-1.5 border-b border-neutral-800/80 bg-neutral-900/60 flex items-center justify-between text-[10px] font-mono">
+      <div className="px-3 py-1.5 border-b border-neutral-800/80 bg-neutral-900/60 flex items-center justify-between text-[10px] font-mono flex-none">
         <span className="text-neutral-400 uppercase tracking-wider">Active Buffer</span>
         <div className="flex items-center gap-1.5">
           {isSaving && (
@@ -47,12 +79,14 @@ const CurrentSessionCard = ({ item, onView, onDownload, onRetrySave }) => {
 
       {/* Image Preview Container */}
       <div
-        className={`relative w-full ${getAspectClass(item.aspectRatio)} bg-neutral-950 overflow-hidden cursor-pointer group`}
+        style={{ aspectRatio: activeAspect }}
+        className={`relative w-full ${getAspectClass(activeAspect)} bg-neutral-950 overflow-hidden cursor-pointer group`}
         onClick={() => onView(item)}
       >
         <img
           src={item.imageUrl}
           alt={item.prompt}
+          onLoad={handleImageLoad}
           className="w-full h-full object-cover transition duration-300 group-hover:scale-105"
         />
 
@@ -82,14 +116,14 @@ const CurrentSessionCard = ({ item, onView, onDownload, onRetrySave }) => {
 
         {/* Aspect Ratio Badge */}
         <div className="absolute bottom-2 left-2">
-          <span className="px-2 py-0.5 rounded text-[9px] font-mono bg-black/75 backdrop-blur-md text-white border border-white/10">
-            {item.aspectRatio || '1:1'}
+          <span className="px-2 py-0.5 rounded text-[9px] font-mono bg-black/75 backdrop-blur-md text-white border border-white/10 uppercase">
+            {activeAspect === '16/9' ? '16:9' : activeAspect === '9/16' ? '9:16' : '1:1'}
           </span>
         </div>
       </div>
 
       {/* Details & Actions */}
-      <div className="p-3 bg-[#111111] space-y-2">
+      <div className="p-3 bg-[#111111] space-y-2 flex-none">
         <p className="text-xs text-neutral-300 line-clamp-2 leading-relaxed" title={item.prompt}>
           {item.prompt}
         </p>

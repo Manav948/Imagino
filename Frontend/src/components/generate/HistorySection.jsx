@@ -112,13 +112,17 @@ const HistorySection = ({
         </div>
       ) : loading && historyImages.length === 0 ? (
         /* Skeleton Grid */
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6 space-y-6">
           {Array.from({ length: 8 }).map((_, i) => (
             <div
               key={i}
-              className="rounded-xl bg-[#111111]/80 border border-neutral-800 p-3 space-y-3 animate-pulse"
+              className="break-inside-avoid rounded-xl bg-[#111111]/80 border border-neutral-800 p-3 space-y-3 animate-pulse"
             >
-              <div className="w-full aspect-square bg-neutral-900 rounded-lg" />
+              <div
+                className={`w-full bg-neutral-900 rounded-lg ${
+                  i % 3 === 0 ? 'aspect-video' : i % 3 === 1 ? 'aspect-square' : 'aspect-[9/16]'
+                }`}
+              />
               <div className="h-3 bg-neutral-900 rounded w-3/4" />
               <div className="h-2 bg-neutral-900 rounded w-1/2" />
             </div>
@@ -153,16 +157,17 @@ const HistorySection = ({
           )}
         </div>
       ) : (
-        /* Images Grid */
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        /* Masonry Columns of History Cards */
+        <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6 space-y-6">
           {historyImages.map((img) => (
-            <HistoryCard
-              key={img._id || img.id}
-              image={img}
-              onView={onView}
-              onDownload={onDownload}
-              onDelete={onDelete}
-            />
+            <div key={img._id || img.id} className="break-inside-avoid">
+              <HistoryCard
+                image={img}
+                onView={onView}
+                onDownload={onDownload}
+                onDelete={onDelete}
+              />
+            </div>
           ))}
         </div>
       )}

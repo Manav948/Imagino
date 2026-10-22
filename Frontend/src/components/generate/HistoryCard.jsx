@@ -8,14 +8,54 @@ const HistoryCard = ({ image, onView, onDownload, onDelete }) => {
   const [deleting, setDeleting] = useState(false);
   const [retryKey, setRetryKey] = useState(0);
 
+  // Derive initial aspect ratio from width/height or image.aspectRatio
+  const [detectedAspect, setDetectedAspect] = useState(() => {
+    if (image.width && image.height) {
+      const ratio = image.width / image.height;
+      if (ratio >= 1.35) return '16/9';
+      if (ratio <= 0.75) return '9/16';
+      return '1/1';
+    }
+    if (image.aspectRatio === '16:9') return '16/9';
+    if (image.aspectRatio === '9:16') return '9/16';
+    if (image.aspectRatio === '1:1') return '1/1';
+    return null;
+  });
+
   const thumbnailUrl = getOptimizedImageUrl(image.imageUrl, { width: 500 });
+
+  const handleImageLoad = (e) => {
+    setImageLoaded(true);
+    const { naturalWidth, naturalHeight } = e.target;
+    if (naturalWidth && naturalHeight) {
+      const ratio = naturalWidth / naturalHeight;
+      if (ratio >= 1.35) {
+        setDetectedAspect('16/9');
+      } else if (ratio <= 0.75) {
+        setDetectedAspect('9/16');
+      } else {
+        setDetectedAspect('1/1');
+      }
+    }
+  };
+
+  const activeAspect =
+    detectedAspect ||
+    (image.aspectRatio === '16:9'
+      ? '16/9'
+      : image.aspectRatio === '9:16'
+      ? '9/16'
+      : '1/1');
 
   const getAspectClass = (ar) => {
     switch (ar) {
+      case '16/9':
       case '16:9':
         return 'aspect-video';
+      case '9/16':
       case '9:16':
         return 'aspect-[9/16]';
+      case '1/1':
       case '1:1':
       default:
         return 'aspect-square';
@@ -34,10 +74,11 @@ const HistoryCard = ({ image, onView, onDownload, onDelete }) => {
   };
 
   return (
-    <div className="group relative rounded-xl bg-[#111111]/80 border border-neutral-800/80 hover:border-[#ff4a1c]/60 transition-all duration-300 overflow-hidden flex flex-col justify-between shadow-lg hover:shadow-[0_4px_24px_rgba(255,74,28,0.12)]">
+    <div className="group relative rounded-xl bg-[#111111]/90 border border-neutral-800/80 hover:border-[#ff4a1c]/60 transition-all duration-300 overflow-hidden flex flex-col shadow-lg hover:shadow-[0_4px_24px_rgba(255,74,28,0.12)] w-full h-auto">
       {/* Aspect Ratio Image Container */}
       <div
-        className={`relative w-full ${getAspectClass(image.aspectRatio)} bg-neutral-900/90 overflow-hidden cursor-pointer`}
+        style={{ aspectRatio: activeAspect }}
+        className={`relative w-full ${getAspectClass(activeAspect)} bg-neutral-900/90 overflow-hidden cursor-pointer`}
         onClick={() => onView(image)}
       >
         {/* Skeleton Shimmer while loading */}
@@ -70,7 +111,7 @@ const HistoryCard = ({ image, onView, onDownload, onDelete }) => {
             src={thumbnailUrl}
             alt={image.prompt || 'Generated art'}
             loading="lazy"
-            onLoad={() => setImageLoaded(true)}
+            onLoad={handleImageLoad}
             onError={() => setImageError(true)}
             className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${
               imageLoaded ? 'opacity-100' : 'opacity-0'
@@ -81,7 +122,7 @@ const HistoryCard = ({ image, onView, onDownload, onDelete }) => {
         {/* Top Floating Badges */}
         <div className="absolute top-2 left-2 flex items-center gap-1.5 pointer-events-none">
           <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-black/70 backdrop-blur-md text-neutral-300 border border-white/10 uppercase">
-            {image.aspectRatio || '1:1'}
+            {activeAspect === '16/9' ? '16:9' : activeAspect === '9/16' ? '9:16' : '1:1'}
           </span>
           {image.sampler && (
             <span className="hidden sm:inline-block px-1.5 py-0.5 rounded text-[8px] font-mono bg-black/60 backdrop-blur-md text-neutral-400 border border-white/5">
@@ -139,7 +180,7 @@ const HistoryCard = ({ image, onView, onDownload, onDelete }) => {
       </div>
 
       {/* Card Info Footer */}
-      <div className="p-3 border-t border-neutral-800/80 bg-[#0d0d0d]/90 flex flex-col gap-1.5">
+      <div className="p-3 border-t border-neutral-800/80 bg-[#0d0d0d]/90 flex flex-col gap-1.5 flex-none">
         <p
           className="text-xs text-neutral-300 line-clamp-2 leading-relaxed font-sans"
           title={image.prompt}

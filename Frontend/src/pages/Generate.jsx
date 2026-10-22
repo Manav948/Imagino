@@ -413,7 +413,7 @@ const Generate = () => {
               NO_SESSION_OBJECTS_COMPILED. ENTER PROMPT ABOVE TO EXECUTE.
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 items-start">
               {activeSessionImages.map((item) => (
                 <CurrentSessionCard
                   key={item.clientGenerationId || item.id}
